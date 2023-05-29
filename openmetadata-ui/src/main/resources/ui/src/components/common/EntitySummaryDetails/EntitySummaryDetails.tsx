@@ -106,6 +106,7 @@ const EntitySummaryDetails = ({
     isOwner,
     isTeamType,
     isTeamOwner,
+    isPercentile,
   } = useMemo(() => {
     const userDetails = getTeamsUser(data);
 
@@ -117,6 +118,7 @@ const EntitySummaryDetails = ({
       isOwner: data.key === 'Owner',
       isTeamType: data.key === 'TeamType',
       isTeamOwner: isString(data.value) ? data.value.includes('teams/') : false,
+      isPercentile: data.key === 'Usage',
     };
   }, [data]);
 

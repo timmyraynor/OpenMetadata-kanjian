@@ -14,13 +14,17 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { Tag, Tooltip, Typography } from 'antd';
 import classNames from 'classnames';
-import { FQN_SEPARATOR_CHAR } from 'constants/char.constants';
 import { ROUTES } from 'constants/constants';
 import { TagSource } from 'generated/type/tagLabel';
 import React, { FunctionComponent, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getTagDisplay, getTagTooltip } from 'utils/TagsUtils';
-import { ReactComponent as IconPage } from '../../../assets/svg/ic-flat-doc.svg';
+import {
+  getTagDisplay,
+  getTagDisplayColorClass,
+  getTagSimpleDisplay,
+  getTagTooltip,
+} from 'utils/TagsUtils';
+import { ReactComponent as IconPage } from '../../../assets/svg/ic-journal-bookmark.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/svg/plus-primary.svg';
 import { ReactComponent as IconTag } from '../../../assets/svg/tag-grey.svg';
 
@@ -84,13 +88,15 @@ const Tags: FunctionComponent<TagProps> = ({
   }, [startWith, isGlossaryTag]);
 
   const tagChip = useMemo(() => {
-    const tagName = showOnlyName
-      ? tag.tagFQN.split(FQN_SEPARATOR_CHAR).slice(-2).join(FQN_SEPARATOR_CHAR)
-      : tag.tagFQN;
+    const tagName = showOnlyName ? getTagSimpleDisplay(tag.tagFQN) : tag.tagFQN;
 
     return (
       <Tag
-        className={classNames('tag-container-style', type, className)}
+        className={
+          classNames('tag-container-style', type, className) +
+          ' ' +
+          getTagDisplayColorClass(tag)
+        }
         closable={editable && isRemovable}
         closeIcon={<CloseOutlined className="tw-text-primary" />}
         data-testid="tags"

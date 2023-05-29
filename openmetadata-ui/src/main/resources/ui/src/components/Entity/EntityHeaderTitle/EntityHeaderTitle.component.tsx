@@ -65,6 +65,7 @@ const EntityHeaderTitle = ({
             <DisplayName
               displayName={displayName}
               displayNameOptions={entityData.tags}
+              entityName={entityData.name}
               hasEditAccess={canUpdateDisplayName}
               isEdit={isEdit}
               onCancel={onCancel}

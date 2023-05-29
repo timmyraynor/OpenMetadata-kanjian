@@ -12,7 +12,7 @@
  */
 
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Col, Row, Select, Tooltip } from 'antd';
+import { Button, Col, Row, Select, Tooltip, Typography } from 'antd';
 import { ReactComponent as EditIcon } from 'assets/svg/edit-new.svg';
 import { AxiosError } from 'axios';
 import { Table } from 'generated/entity/data/table';
@@ -51,6 +51,7 @@ const DisplayName: FC<DisplayNameProps> = ({
   onDisplayNameUpdate,
   onDisplayNameEdit,
   displayNameOptions,
+  entityName = '',
   onCancel,
 }) => {
   const [updateName, setUpdateName] = useState<string>(displayName);
@@ -85,6 +86,7 @@ const DisplayName: FC<DisplayNameProps> = ({
         <>
           <Select
             showSearch
+            defaultValue={displayName}
             filterOption={(input, option) =>
               (option?.children as unknown as string)
                 .toLowerCase()
@@ -120,7 +122,15 @@ const DisplayName: FC<DisplayNameProps> = ({
         </>
       ) : (
         <Row>
-          <Col>{displayName ?? name}</Col>
+          <Col>
+            {displayName && displayName.length > 0 ? (
+              displayName
+            ) : (
+              <Typography.Text disabled italic>
+                {entityName}
+              </Typography.Text>
+            )}
+          </Col>
           {hasEditAccess ? (
             <Col>
               <Tooltip placement="topRight">

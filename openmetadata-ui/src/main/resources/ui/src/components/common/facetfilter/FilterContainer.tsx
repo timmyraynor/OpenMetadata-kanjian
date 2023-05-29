@@ -15,6 +15,7 @@ import { Tooltip } from 'antd';
 import classNames from 'classnames';
 import { isNil } from 'lodash';
 import React, { FunctionComponent } from 'react';
+import { getTagSimpleDisplay } from 'utils/TagsUtils';
 import { FQN_SEPARATOR_CHAR } from '../../../constants/char.constants';
 import { getCountBadge } from '../../../utils/CommonUtils';
 import { FilterContainerProp } from './facetFilter.interface';
@@ -31,10 +32,10 @@ const FilterContainer: FunctionComponent<FilterContainerProp> = ({
   const getFilterName = (name = '') => {
     const formattedName = name.startsWith(`Tier${FQN_SEPARATOR_CHAR}Tier`)
       ? name.split(FQN_SEPARATOR_CHAR)[1]
-      : name;
+      : getTagSimpleDisplay(name);
 
     return (
-      <Tooltip placement="topLeft" title={formattedName} trigger="hover">
+      <Tooltip placement="topLeft" title={name} trigger="hover">
         {label || formattedName}
       </Tooltip>
     );

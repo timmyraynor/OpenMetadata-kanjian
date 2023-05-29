@@ -28,7 +28,11 @@ import React, {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getTagDisplay, getTagTooltip } from 'utils/TagsUtils';
+import {
+  getDuplicatedTags,
+  getTagDisplay,
+  getTagTooltip,
+} from 'utils/TagsUtils';
 import { FQN_SEPARATOR_CHAR } from '../../../constants/char.constants';
 import { withLoader } from '../../../hoc/withLoader';
 import Fqn from '../../../utils/Fqn';
@@ -116,11 +120,18 @@ const TagsContainer: FunctionComponent<TagsContainerProps> = ({
     onCancel && onCancel(event);
   };
 
-  const getTagsElement = (tag: EntityTags, index: number) => {
+  const getTagsElement = (
+    tag: EntityTags,
+    index: number,
+    duplicatedFQNs: string[]
+  ) => {
+    const needFullName = duplicatedFQNs.includes(tag.tagFQN);
+
     return (
       <Tags
         editable
         key={index}
+        showOnlyName={!needFullName}
         startWith={TAG_START_WITH.SOURCE_ICON}
         tag={tag}
         type="border"
@@ -176,6 +187,8 @@ const TagsContainer: FunctionComponent<TagsContainerProps> = ({
     [tags]
   );
 
+  const duplicatedTags = getDuplicatedTags(tags);
+
   return (
     <div
       className={classNames('w-full d-flex items-center gap-2', containerClass)}
@@ -199,7 +212,9 @@ const TagsContainer: FunctionComponent<TagsContainerProps> = ({
               })}
             </Typography.Text>
           )}
-          {tags.map(getTagsElement)}
+          {tags.map((tagElement, index) => {
+            return getTagsElement(tagElement, index, duplicatedTags);
+          })}
 
           {tags.length && showEditTagButton ? (
             <Button

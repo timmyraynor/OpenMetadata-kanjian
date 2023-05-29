@@ -16,6 +16,7 @@ import { AxiosError } from 'axios';
 import RichTextEditorPreviewer from 'components/common/rich-text-editor/RichTextEditorPreviewer';
 import { FQN_SEPARATOR_CHAR } from 'constants/char.constants';
 import { delimiterRegex } from 'constants/regex.constants';
+import { TagLabel } from 'generated/type/schema';
 import i18next from 'i18next';
 import { isEmpty, isUndefined, toLower } from 'lodash';
 import { Bucket, EntityTags, TagOption } from 'Models';
@@ -190,6 +191,36 @@ export const getTagDisplay = (tag: string) => {
   }
 
   return tag;
+};
+
+// will return only the aname
+export const getTagSimpleDisplay = (tag: string) => {
+  const tagLevelsArray = tag.split(FQN_SEPARATOR_CHAR);
+
+  return tagLevelsArray[tagLevelsArray.length - 1];
+};
+
+export const getTagDisplayColorClass = (tag: TagLabel) => {
+  if (tag?.source === TagSource.Glossary) {
+    return 'tag-glossary';
+  } else {
+    return 'tag-classification';
+  }
+};
+
+export const getDuplicatedTags = (tags: TagLabel[]) => {
+  const duplicates: string[] = [];
+  const seen: Record<string, boolean> = {};
+  for (const tag of tags) {
+    const tagSimpleName = getTagSimpleDisplay(tag.tagFQN);
+    if (seen[tagSimpleName]) {
+      duplicates.push(tag.tagFQN);
+    } else {
+      seen[tagSimpleName] = true;
+    }
+  }
+
+  return duplicates;
 };
 
 export const fetchTagsAndGlossaryTerms = async () => {
