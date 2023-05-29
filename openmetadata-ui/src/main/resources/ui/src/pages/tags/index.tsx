@@ -64,7 +64,7 @@ import {
   patchClassification,
   patchTag,
 } from 'rest/tagAPI';
-import { getEntityName } from 'utils/EntityUtils';
+import { getEntityBaseName, getEntityName } from 'utils/EntityUtils';
 import { ReactComponent as PlusIcon } from '../../assets/svg/plus-primary.svg';
 import {
   DE_ACTIVE_COLOR,
@@ -793,6 +793,9 @@ const TagsPage = () => {
                 <Space align="end">
                   <EntityHeaderTitle
                     displayName={getEntityName(currentClassification)}
+                    entityData={{
+                      name: getEntityBaseName(currentClassification),
+                    }}
                     icon={
                       <IconTag
                         className="h-9"

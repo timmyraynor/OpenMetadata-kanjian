@@ -46,6 +46,7 @@ export interface DatasetDetailsProps {
   settingsUpdateHandler: (updatedTable: Table) => Promise<void>;
   columnsUpdateHandler: (updatedTable: Table) => Promise<void>;
   descriptionUpdateHandler: (updatedTable: Table) => Promise<void>;
+  displayNameUpdateHandler: (updatedTable: Table) => Promise<void>;
   tagUpdateHandler: (updatedTable: Table) => void;
   versionHandler: () => void;
   postFeedHandler: (value: string, id: string) => void;

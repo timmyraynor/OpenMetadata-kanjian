@@ -160,6 +160,8 @@ declare module 'Models' {
     serviceType?: string;
     timestamp: number;
     id: string;
+    tags: Array<TagLabel>;
+    description?: string;
   }
 
   interface RecentlySearchedData {

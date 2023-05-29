@@ -121,12 +121,12 @@ export const DEFAULT_RANGE_DATA = {
   endTs: getCurrentDateTimeStamp(),
 };
 
-export const COLORS = ['#7147E8', '#B02AAC', '#B02AAC', '#1890FF', '#008376'];
+export const COLORS = ['#047857', '#B02AAC', '#B02AAC', '#1890FF', '#008376'];
 
 export const DEFAULT_CHART_COLLECTION_VALUE = {
   distinctCount: { data: [], color: '#1890FF' },
   uniqueCount: { data: [], color: '#008376' },
-  nullCount: { data: [], color: '#7147E8' },
+  nullCount: { data: [], color: '#047857' },
   nullProportion: { data: [], color: '#B02AAC' },
 };
 
@@ -144,7 +144,7 @@ export const INITIAL_COUNT_METRIC_VALUE = {
         entity: t('label.null'),
       }),
       dataKey: 'nullCount',
-      color: '#7147E8',
+      color: '#047857',
     },
     {
       title: t('label.entity-count', {
@@ -178,7 +178,7 @@ export const INITIAL_PROPORTION_METRIC_VALUE = {
         entity: t('label.null'),
       }),
       dataKey: 'nullProportion',
-      color: '#7147E8',
+      color: '#047857',
     },
     {
       title: t('label.entity-proportion', {
@@ -201,7 +201,7 @@ export const INITIAL_MATH_METRIC_VALUE = {
     {
       title: t('label.mean'),
       dataKey: 'mean',
-      color: '#7147E8',
+      color: '#047857',
     },
     {
       title: t('label.min'),
@@ -232,7 +232,7 @@ export const INITIAL_QUARTILE_METRIC_VALUE = {
     {
       title: i18n.t('label.median'),
       dataKey: 'median',
-      color: '#7147E8',
+      color: '#047857',
     },
     {
       title: i18n.t('label.inter-quartile-range'),
@@ -276,7 +276,7 @@ export const INITIAL_OPERATION_METRIC_VALUE = {
     {
       title: t('label.delete'),
       dataKey: DMLOperationType.Delete,
-      color: '#7147E8',
+      color: '#047857',
     },
   ],
   data: [],

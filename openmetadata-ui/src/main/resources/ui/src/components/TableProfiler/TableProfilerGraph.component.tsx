@@ -78,9 +78,9 @@ const TableProfilerGraph: FC<Props> = ({
         />
         <Area
           dataKey="value"
-          fill="#7147E8"
+          fill="#047857"
           fillOpacity="0.4"
-          stroke="#7147E8"
+          stroke="#047857"
           type="monotone"
         />
       </AreaChart>

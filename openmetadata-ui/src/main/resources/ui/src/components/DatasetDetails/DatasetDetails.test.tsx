@@ -162,6 +162,7 @@ const DatasetDetailsProps = {
   fetchFeedHandler: jest.fn(),
   handleExtensionUpdate: jest.fn(),
   updateThreadHandler: jest.fn(),
+  displayNameUpdateHandler: jest.fn(),
 };
 
 jest.mock('../EntityLineage/EntityLineage.component', () => {

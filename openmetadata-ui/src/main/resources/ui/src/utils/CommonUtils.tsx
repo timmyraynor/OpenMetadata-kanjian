@@ -317,7 +317,7 @@ export const addToRecentViewed = (eData: RecentlyViewedData): void => {
       .sort(arraySorterByKey<RecentlyViewedData>('timestamp', true));
     arrData.unshift(entityData);
 
-    if (arrData.length > 5) {
+    if (arrData.length > 4) {
       arrData.pop();
     }
     recentlyViewed.data = arrData;

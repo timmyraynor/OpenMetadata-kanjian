@@ -12,6 +12,7 @@
  */
 
 import { Card, Col, Divider, Row } from 'antd';
+import RecentlyViewedList from 'components/recently-viewed/RecentlyViewedList';
 import WelcomeScreen from 'components/WelcomeScreen/WelcomeScreen.component';
 import { ELASTICSEARCH_ERROR_PLACEHOLDER_TYPE } from 'enums/common.enum';
 import { observer } from 'mobx-react';
@@ -273,6 +274,7 @@ const MyData: React.FC<MyDataProps> = ({
         />
       ) : (
         <>
+          <RecentlyViewedList />
           {showActivityFeedList ? (
             <ActivityFeedList
               stickyFilter

@@ -11,7 +11,15 @@
  *  limitations under the License.
  */
 
+/* This has been override */
+
 /* Generic */
+
+:root {
+  --primary: #047857;
+  --primary-partial: #04785760;
+  --primary-partial-et: #04785780;
+}
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -733,7 +741,7 @@ body .profiler-graph .recharts-active-dot circle {
   background-color: #6b7280;
 }
 .leaf-node.core .react-flow__handle {
-  background-color: #7147e8;
+  background-color: var(--primary);
 }
 .react-flow__edge {
   pointer-events: all;
@@ -741,7 +749,7 @@ body .profiler-graph .recharts-active-dot circle {
 }
 
 .react-flow__edge.selected .react-flow__edge-path {
-  stroke: #7147e8;
+  stroke: var(--primary);
 }
 
 .react-flow__node-default,
@@ -968,7 +976,7 @@ code {
 
 .ant-btn-text:hover span {
   text-decoration: underline;
-  color: #7147e8;
+  color: var(--primary);
   background-color: transparent;
 }
 
@@ -1007,8 +1015,8 @@ code {
 /* Reaction CSS Start */
 .ant-btn-add-reactions:hover,
 .ant-btn-add-reactions:focus {
-  color: #7147e8;
-  border-color: #7147e8;
+  color: var(--primary);
+  border-color: var(--primary);
 }
 
 .ant-btn-reaction,
@@ -1021,28 +1029,28 @@ code {
 }
 
 .ant-btn-popover-reaction:hover {
-  background-color: #7147e860;
+  background-color: var(--primary-partial);
 }
 
 .ant-btn-reaction:hover,
 .ant-btn-isReacted {
-  color: #7147e8;
-  border-color: #7147e8;
+  color: var(--primary);
+  border-color: var(--primary);
 }
 
 .ant-btn-isReacted:hover {
-  color: #7147e8;
-  border-color: #7147e880;
+  color: var(--primary);
+  border-color: var(--primary-partial-et);
 }
 
 .ant-btn-popover-isReacted,
 .ant-btn-popover-isReacted:hover {
-  background-color: #7147e860;
+  background-color: var(--primary-partial);
 }
 
 /* Reaction CSS End */
 .ant-advaced-field-select {
-  color: #7147e8;
+  color: var(--primary);
   min-width: 130px;
 }
 .ant-suggestion-dropdown {
@@ -1071,28 +1079,28 @@ code {
 /* Antd custom button CSS */
 .ant-btn-link-custom,
 .ant-btn-link-custom:hover {
-  color: #7147e8;
+  color: var(--primary);
 }
 .ant-dropdown-button.ant-btn-primary-dropdown > .ant-btn-primary,
 .ant-btn-primary-custom {
-  background: #7147e8;
+  background: var(--primary);
   color: #ffffff;
-  border-color: #7147e8;
+  border-color: var(--primary);
 }
 
 .ant-dropdown-button.ant-btn-primary-dropdown
   > .ant-btn-primary.ant-btn-icon-only {
-  background: #7147e8;
+  background: var(--primary);
   color: #ffffff;
-  border-color: #7147e8;
+  border-color: var(--primary);
   border-left-color: #ffffff;
 }
 .ant-btn-primary-custom:hover,
 .ant-dropdown-button.ant-btn-primary-dropdown > .ant-btn-primary,
 .ant-btn-primary-custom span:hover {
-  background: #7147e8;
+  background: var(--primary);
   color: #ffffff;
-  border-color: #7147e8;
+  border-color: var(--primary);
   text-decoration: none;
 }
 
@@ -1107,10 +1115,10 @@ code {
   outline: none;
 }
 .ant-select-custom:not(.ant-select-disabled):hover .ant-select-selector {
-  border-color: #7147e8;
+  border-color: var(--primary);
 }
 .ant-select-focused {
-  border-color: #7147e8;
+  border-color: var(--primary);
   outline: none;
 }
 
@@ -1144,13 +1152,13 @@ code {
   > .ant-tabs-nav-wrap
   > .ant-tabs-nav-list
   > .ant-tabs-tab:hover {
-  color: #7147e8;
+  color: var(--primary);
 }
 .ant-tabs-custom-threadpanel > .ant-tabs-nav > .ant-tabs-nav-wrap {
   padding: 0px 16px;
 }
 .ant-tabs-ink-bar {
-  background: #7147e8;
+  background: var(--primary);
 }
 /* Description tabs CSS */
 
@@ -1244,8 +1252,8 @@ div.ant-typography-ellipsis-custom {
 }
 
 .ant-dropdown-menu-item-selected {
-  color: #7147e8;
-  background-color: #7147e825;
+  color: var(--primary);
+  background-color: #04785725;
 }
 
 .table-query-editor pre.CodeMirror-line {
@@ -1254,7 +1262,7 @@ div.ant-typography-ellipsis-custom {
 
 /* antd switch css */
 .ant-switch-checked {
-  background: #7147e8;
+  background: var(--primary);
 }
 /* antd switch css */
 

@@ -68,6 +68,7 @@ interface Props {
   isTagEditable?: boolean;
   followersList: Array<EntityReference>;
   entityName: string;
+  entityDisplayName?: string;
   entityId?: string;
   entityType?: string;
   entityFqn?: string;
@@ -82,6 +83,11 @@ interface Props {
   versionHandler?: () => void;
   updateOwner?: (value: Table['owner']) => void;
   updateTier?: (value: string) => void;
+  canUpdateDisplayName?: boolean;
+  updateDisplayName?: (value: string) => void;
+  isEditDisplayName?: boolean;
+  editDisplayName?: () => void;
+  onCancel?: () => void;
   currentOwner?: Dashboard['owner'];
   removeTier?: () => void;
   onRestoreEntity?: () => void;
@@ -104,6 +110,7 @@ const EntityPageInfo = ({
   tagsHandler,
   followersList = [],
   entityName,
+  entityDisplayName,
   entityId,
   version,
   isVersionSelected,
@@ -114,6 +121,11 @@ const EntityPageInfo = ({
   entityType,
   updateOwner,
   updateTier,
+  canUpdateDisplayName,
+  updateDisplayName,
+  isEditDisplayName,
+  editDisplayName,
+  onCancel,
   canDelete,
   currentOwner,
   entityFieldTasks,
@@ -358,9 +370,12 @@ const EntityPageInfo = ({
       direction="vertical">
       <EntityHeader
         breadcrumb={titleLinks}
+        canUpdateDisplayName={canUpdateDisplayName || false}
+        editDisplayName={editDisplayName}
         entityData={{
-          displayName: entityName,
+          displayName: entityDisplayName,
           name: entityName,
+          tags: tags,
           deleted,
         }}
         entityType={(entityType as EntityType) ?? EntityType.TABLE}
@@ -433,7 +448,10 @@ const EntityPageInfo = ({
             <img className="h-8" src={serviceTypeLogo(serviceType)} />
           )
         }
+        isEdit={isEditDisplayName || false}
         serviceName={serviceType ?? ''}
+        updateDisplayName={updateDisplayName}
+        onCancel={onCancel}
       />
 
       <Space wrap className="justify-between w-full" size={16}>

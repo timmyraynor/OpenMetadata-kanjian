@@ -60,7 +60,7 @@ const EntityNode: FC<EntityNodeProps> = ({ type, label, draggable }) => {
             className="drag-icon"
             component={DragIconDotted}
             rotate={90}
-            style={{ color: '#7147E8', fontSize: '18px', fontWeight: 'bold' }}
+            style={{ color: '#047857', fontSize: '18px', fontWeight: 'bold' }}
           />
         </span>
       </div>

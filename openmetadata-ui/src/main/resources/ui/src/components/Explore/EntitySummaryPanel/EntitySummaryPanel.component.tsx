@@ -107,6 +107,7 @@ export default function EntitySummaryPanel({
           entityData={entityDetails.details}
           entityType={entityDetails.details.entityType as EntityType}
           icon={icon}
+          isEdit={false}
           serviceName={entityDetails.details.serviceType ?? ''}
         />
       }

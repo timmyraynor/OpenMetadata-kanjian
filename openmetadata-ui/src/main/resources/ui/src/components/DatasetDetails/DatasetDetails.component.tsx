@@ -33,7 +33,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { searchQuery } from 'rest/searchAPI';
 import { restoreTable } from 'rest/tableAPI';
-import { getEntityId, getEntityName } from 'utils/EntityUtils';
+import {
+  getEntityBaseName,
+  getEntityBusinessName,
+  getEntityId,
+  getEntityName,
+} from 'utils/EntityUtils';
 import { createQueryFilter } from 'utils/Query/QueryUtils';
 import {
   FQN_SEPARATOR_CHAR,
@@ -104,6 +109,7 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
   slashedTableName,
   tableDetails,
   descriptionUpdateHandler,
+  displayNameUpdateHandler,
   columnsUpdateHandler,
   settingsUpdateHandler,
   versionHandler,
@@ -126,6 +132,7 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
   const { t } = useTranslation();
   const location = useLocation();
   const [isEdit, setIsEdit] = useState(false);
+  const [isEditDisplayName, setIsEditDisplay] = useState(false);
   const [usage, setUsage] = useState('');
   const [threadLink, setThreadLink] = useState<string>('');
   const [threadType, setThreadType] = useState<ThreadType>(
@@ -150,6 +157,7 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
     deleted,
     columns,
     description,
+    displayName,
     usageSummary,
     joins,
     entityName,
@@ -160,7 +168,8 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
       ...tableDetails,
       tier: getTierTags(tags ?? []),
       tableTags: getTagsWithoutTier(tags || []),
-      entityName: getEntityName(tableDetails),
+      entityName: getEntityBaseName(tableDetails),
+      displayName: getEntityBusinessName(tableDetails),
     };
   }, [tableDetails]);
   const isTourPage = location.pathname.includes(ROUTES.TOUR);
@@ -477,8 +486,16 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
   const onDescriptionEdit = (): void => {
     setIsEdit(true);
   };
+
+  const onDisplayEdit = (): void => {
+    setIsEditDisplay(true);
+  };
   const onCancel = () => {
     setIsEdit(false);
+  };
+
+  const onCancelDisplay = () => {
+    setIsEditDisplay(false);
   };
 
   const onDescriptionUpdate = async (updatedHTML: string) => {
@@ -540,6 +557,19 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
       return settingsUpdateHandler(updatedTableDetails);
     } else {
       return Promise.reject();
+    }
+  };
+
+  const onDisplayNameUpdate = async (updatedHTML: string) => {
+    if (displayName !== updatedHTML) {
+      const updatedTableDetails = {
+        ...tableDetails,
+        displayName: updatedHTML,
+      };
+      await displayNameUpdateHandler(updatedTableDetails);
+      setIsEdit(false);
+    } else {
+      setIsEdit(false);
     }
   };
 
@@ -640,9 +670,14 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
         })}>
         <EntityPageInfo
           canDelete={tablePermissions.Delete}
+          canUpdateDisplayName={
+            tablePermissions.EditDisplayName || tablePermissions.EditAll
+          }
           createAnnouncementPermission={tablePermissions.EditAll}
           currentOwner={tableDetails.owner}
           deleted={deleted}
+          editDisplayName={onDisplayEdit}
+          entityDisplayName={displayName}
           entityFieldTasks={getEntityFieldThreadCounts(
             EntityField.TAGS,
             entityFieldTaskCount
@@ -659,6 +694,7 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
           followHandler={followTable}
           followers={followersCount}
           followersList={followers}
+          isEditDisplayName={isEditDisplayName}
           isFollowing={isFollowing}
           isTagEditable={tablePermissions.EditAll || tablePermissions.EditTags}
           removeTier={
@@ -671,6 +707,11 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
           tagsHandler={onTagUpdate}
           tier={tier}
           titleLinks={slashedTableName}
+          updateDisplayName={
+            tablePermissions.EditAll || tablePermissions.EditDisplayName
+              ? onDisplayNameUpdate
+              : undefined
+          }
           updateOwner={
             tablePermissions.EditAll || tablePermissions.EditOwner
               ? onOwnerUpdate
@@ -683,6 +724,7 @@ const DatasetDetails: React.FC<DatasetDetailsProps> = ({
           }
           version={version}
           versionHandler={versionHandler}
+          onCancel={onCancelDisplay}
           onRestoreEntity={handleRestoreTable}
           onThreadLinkSelect={onThreadLinkSelect}
         />

@@ -137,7 +137,7 @@ const SelectServiceType = ({
                   {type === DatabaseServiceType.Impala ? (
                     <Badge
                       className="service-beta-tag"
-                      color="#7147E8"
+                      color="#047857"
                       count={t('label.beta')}
                     />
                   ) : (

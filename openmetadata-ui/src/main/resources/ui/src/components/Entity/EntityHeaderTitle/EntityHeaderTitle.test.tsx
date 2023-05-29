@@ -11,6 +11,7 @@
  *  limitations under the License.
  */
 import { render, screen } from '@testing-library/react';
+import { TagLabel } from 'generated/type/tagLabel';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import EntityHeaderTitle from './EntityHeaderTitle.component';
@@ -20,11 +21,18 @@ jest.mock('react-router-dom', () => ({
   useLocation: jest.fn().mockReturnValue({ pathname: '/explore' }),
 }));
 
+const dummyEntityData = {
+  displayName: 'Test DisplayName',
+  name: 'Test Name',
+  tags: new Array<TagLabel>(),
+};
+
 describe('EntityHeaderTitle', () => {
   it('should render icon', () => {
     render(
       <EntityHeaderTitle
         displayName="Test DisplayName"
+        entityData={dummyEntityData}
         icon="test-icon"
         name="test-name"
         serviceName="sample-data"
@@ -38,6 +46,7 @@ describe('EntityHeaderTitle', () => {
     render(
       <EntityHeaderTitle
         displayName="Test DisplayName"
+        entityData={dummyEntityData}
         icon="test-icon"
         name="test-name"
         serviceName="sample-data"
@@ -51,6 +60,7 @@ describe('EntityHeaderTitle', () => {
     render(
       <EntityHeaderTitle
         displayName="Test DisplayName"
+        entityData={dummyEntityData}
         icon="test-icon"
         name="test-name"
         serviceName="sample-data"
@@ -64,6 +74,7 @@ describe('EntityHeaderTitle', () => {
     render(
       <EntityHeaderTitle
         displayName="Test DisplayName"
+        entityData={dummyEntityData}
         icon="test-icon"
         link="test-link"
         name="test-name"

@@ -16,8 +16,13 @@ import classNames from 'classnames';
 import TitleBreadcrumb from 'components/common/title-breadcrumb/title-breadcrumb.component';
 import { TitleBreadcrumbProps } from 'components/common/title-breadcrumb/title-breadcrumb.interface';
 import { EntityType } from 'enums/entity.enum';
+import { TagLabel } from 'generated/entity/data/table';
 import React, { ReactNode } from 'react';
-import { getEntityLinkFromType, getEntityName } from 'utils/EntityUtils';
+import {
+  getEntityBaseName,
+  getEntityBusinessName,
+  getEntityLinkFromType,
+} from 'utils/EntityUtils';
 import { getEncodedFqn } from 'utils/StringsUtils';
 import EntityHeaderTitle from '../EntityHeaderTitle/EntityHeaderTitle.component';
 
@@ -29,6 +34,7 @@ interface Props {
     name: string;
     fullyQualifiedName?: string;
     deleted?: boolean;
+    tags?: string[] | TagLabel[];
   };
   entityType?: EntityType;
   icon: ReactNode;
@@ -36,6 +42,11 @@ interface Props {
   openEntityInNewPage?: boolean;
   gutter?: 'default' | 'large';
   serviceName: string;
+  canUpdateDisplayName?: boolean;
+  updateDisplayName?: (canUpdate: string) => void;
+  onCancel?: () => void;
+  isEdit?: boolean;
+  editDisplayName?: () => void;
 }
 
 export const EntityHeader = ({
@@ -45,9 +56,14 @@ export const EntityHeader = ({
   icon,
   titleIsLink = false,
   entityType,
+  updateDisplayName,
+  canUpdateDisplayName,
   openEntityInNewPage,
   gutter = 'default',
   serviceName,
+  onCancel,
+  isEdit,
+  editDisplayName,
 }: Props) => {
   return (
     <Row
@@ -66,9 +82,13 @@ export const EntityHeader = ({
         </div>
 
         <EntityHeaderTitle
+          canUpdateDisplayName={canUpdateDisplayName || false}
           deleted={entityData.deleted}
-          displayName={getEntityName(entityData)}
+          displayName={getEntityBusinessName(entityData)}
+          editDisplayName={editDisplayName}
+          entityData={entityData}
           icon={icon}
+          isEdit={isEdit}
           link={
             titleIsLink && entityData.fullyQualifiedName && entityType
               ? getEntityLinkFromType(
@@ -77,9 +97,11 @@ export const EntityHeader = ({
                 )
               : undefined
           }
-          name={entityData.name}
+          name={getEntityBaseName(entityData)}
           openEntityInNewPage={openEntityInNewPage}
           serviceName={serviceName}
+          updateDisplayName={updateDisplayName}
+          onCancel={onCancel}
         />
       </Col>
       <Col>{extra}</Col>

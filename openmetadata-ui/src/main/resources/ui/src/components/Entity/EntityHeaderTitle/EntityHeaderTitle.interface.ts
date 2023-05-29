@@ -1,3 +1,5 @@
+import { TagLabel } from 'generated/type/tagLabel';
+
 /*
  *  Copyright 2023 Collate.
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +18,18 @@ export interface EntityHeaderTitleProps {
   displayName: string;
   link?: string;
   openEntityInNewPage?: boolean;
+  isEdit?: boolean;
+  editDisplayName?: () => void;
+  onCancel?: () => void;
+  canUpdateDisplayName?: boolean;
+  updateDisplayName?: (value: string) => void;
   deleted?: boolean;
   serviceName: string;
+  entityData: {
+    displayName?: string;
+    name: string;
+    fullyQualifiedName?: string;
+    deleted?: boolean;
+    tags?: string[] | TagLabel[];
+  };
 }

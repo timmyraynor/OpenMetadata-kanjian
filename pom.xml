@@ -796,6 +796,10 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire.version}</version>
           <configuration>
+            <argLine>
+                --add-opens=java.base/java.net=ALL-UNNAMED
+                --add-opens=java.base/java.lang.ref=ALL-UNNAMED 
+            </argLine>
             <includes>
               <include>org.openmetadata.service.resources.**.*.java</include>
               <include>org.openmetadata.service.util.*.java</include>

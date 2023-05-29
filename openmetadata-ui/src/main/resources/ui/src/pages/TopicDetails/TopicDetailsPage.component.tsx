@@ -56,7 +56,11 @@ import {
   getFeedCounts,
   sortTagsCaseInsensitive,
 } from '../../utils/CommonUtils';
-import { getEntityFeedLink, getEntityName } from '../../utils/EntityUtils';
+import {
+  getEntityFeedLink,
+  getEntityName,
+  getEntityTags,
+} from '../../utils/EntityUtils';
 import { deletePost, updateThreadData } from '../../utils/FeedUtils';
 import { DEFAULT_ENTITY_PERMISSION } from '../../utils/PermissionsUtils';
 import { showErrorToast } from '../../utils/ToastUtils';
@@ -217,6 +221,8 @@ const TopicDetailsPage: FunctionComponent = () => {
         serviceType: serviceType,
         timestamp: 0,
         id: id,
+        tags: getEntityTags(EntityType.TOPIC, res),
+        description: res.description,
       });
     } catch (error) {
       if ((error as AxiosError).response?.status === 404) {

@@ -17,7 +17,7 @@ import { ELASTICSEARCH_ERROR_PLACEHOLDER_TYPE } from 'enums/common.enum';
 import { isNumber, isUndefined } from 'lodash';
 import Qs from 'qs';
 import React, { useMemo } from 'react';
-import { getEntityName } from 'utils/EntityUtils';
+import { getEntityBaseName, getEntityBusinessName } from 'utils/EntityUtils';
 import { PAGE_SIZE } from '../../constants/constants';
 import { MAX_RESULT_HITS } from '../../constants/explore.constants';
 import { pluralize } from '../../utils/CommonUtils';
@@ -64,10 +64,12 @@ const SearchedData: React.FC<SearchedDataProps> = ({
         });
       }
 
-      let name = getEntityName(table);
+      let name = getEntityBaseName(table);
       if (!isUndefined(highlight)) {
         name = highlight?.name?.join(' ') || name;
       }
+      // let baseName = getEntityBaseName(table);
+      const displayName = getEntityBusinessName(table);
 
       const matches = highlight
         ? Object.entries(highlight)
@@ -101,7 +103,7 @@ const SearchedData: React.FC<SearchedDataProps> = ({
             handleSummaryPanelDisplay={handleSummaryPanelDisplay}
             id={`tabledatacard${index}`}
             matches={matches}
-            source={{ ...table, name, description: tDesc }}
+            source={{ ...table, name, displayName, description: tDesc }}
           />
         </div>
       );

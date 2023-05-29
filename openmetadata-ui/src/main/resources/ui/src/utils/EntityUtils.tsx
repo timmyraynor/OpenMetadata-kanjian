@@ -98,6 +98,17 @@ export const getEntityName = (entity?: {
   return entity?.displayName || entity?.name || '';
 };
 
+export const getEntityBaseName = (entity?: { name?: string }) => {
+  return entity?.name || '';
+};
+
+export const getEntityBusinessName = (entity?: {
+  name?: string;
+  displayName?: string;
+}) => {
+  return entity?.displayName || '';
+};
+
 export const getEntityId = (entity?: { id?: string }) => entity?.id || '';
 
 export const getEntityTags = (

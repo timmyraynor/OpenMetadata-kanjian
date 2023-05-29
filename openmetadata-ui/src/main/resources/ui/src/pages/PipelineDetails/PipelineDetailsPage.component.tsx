@@ -46,7 +46,7 @@ import {
   getEntityMissingError,
   sortTagsCaseInsensitive,
 } from '../../utils/CommonUtils';
-import { getEntityName } from '../../utils/EntityUtils';
+import { getEntityName, getEntityTags } from '../../utils/EntityUtils';
 import { DEFAULT_ENTITY_PERMISSION } from '../../utils/PermissionsUtils';
 import {
   defaultFields,
@@ -147,6 +147,8 @@ const PipelineDetailsPage = () => {
         serviceType: serviceType,
         timestamp: 0,
         id: id,
+        tags: getEntityTags(EntityType.PIPELINE, res),
+        description: res.description,
       });
     } catch (error) {
       if ((error as AxiosError).response?.status === 404) {

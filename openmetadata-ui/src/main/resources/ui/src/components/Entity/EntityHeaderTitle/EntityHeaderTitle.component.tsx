@@ -13,6 +13,7 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Col, Row, Typography } from 'antd';
 import { ReactComponent as IconExternalLink } from 'assets/svg/external-link-grey.svg';
+import DisplayName from 'components/common/displayName/DisplayName';
 import { ROUTES } from 'constants/constants';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,10 +24,16 @@ const EntityHeaderTitle = ({
   icon,
   name,
   displayName,
+  updateDisplayName,
+  canUpdateDisplayName,
+  isEdit,
+  editDisplayName,
+  onCancel,
   link,
   openEntityInNewPage,
   deleted = false,
   serviceName,
+  entityData,
 }: EntityHeaderTitleProps) => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -55,7 +62,15 @@ const EntityHeaderTitle = ({
             className="m-b-0 d-block entity-header-display-name text-lg font-bold"
             data-testid="entity-header-display-name"
             ellipsis={{ tooltip: true }}>
-            {displayName ?? name}
+            <DisplayName
+              displayName={displayName}
+              displayNameOptions={entityData.tags}
+              hasEditAccess={canUpdateDisplayName}
+              isEdit={isEdit}
+              onCancel={onCancel}
+              onDisplayNameEdit={editDisplayName}
+              onDisplayNameUpdate={updateDisplayName}
+            />
             {openEntityInNewPage && (
               <IconExternalLink
                 className="anticon vertical-baseline m-l-xss"

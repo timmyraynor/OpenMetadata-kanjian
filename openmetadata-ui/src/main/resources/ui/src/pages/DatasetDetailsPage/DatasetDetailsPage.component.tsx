@@ -73,7 +73,12 @@ import {
   defaultFields,
   getCurrentDatasetTab,
 } from '../../utils/DatasetDetailsUtils';
-import { getEntityFeedLink, getEntityName } from '../../utils/EntityUtils';
+import {
+  getEntityBusinessName,
+  getEntityFeedLink,
+  getEntityName,
+  getEntityTags,
+} from '../../utils/EntityUtils';
 import { deletePost, updateThreadData } from '../../utils/FeedUtils';
 import { DEFAULT_ENTITY_PERMISSION } from '../../utils/PermissionsUtils';
 import { showErrorToast } from '../../utils/ToastUtils';
@@ -245,12 +250,15 @@ const DatasetDetailsPage: FunctionComponent = () => {
       ]);
 
       addToRecentViewed({
-        displayName: getEntityName(res),
+        displayName: getEntityBusinessName(res),
+        // name: getEntityName(res),
         entityType: EntityType.TABLE,
         fqn: fullyQualifiedName ?? '',
         serviceType: serviceType,
         timestamp: 0,
         id: id,
+        tags: getEntityTags(EntityType.TABLE, res),
+        description: res.description,
       });
     } catch (error) {
       if ((error as AxiosError).response?.status === 404) {
@@ -405,6 +413,19 @@ const DatasetDetailsPage: FunctionComponent = () => {
           entity: t('label.tag-plural'),
         })
       );
+    }
+  };
+
+  const onDisplayNameUpdate = async (updatedTable: Table) => {
+    try {
+      const res = await saveUpdatedTableData(updatedTable);
+      setTableDetails((previous) => ({
+        ...previous,
+        displayName: res.displayName,
+      }));
+      getEntityFeedCount();
+    } catch (error) {
+      showErrorToast(error as AxiosError);
     }
   };
 
@@ -596,6 +617,7 @@ const DatasetDetailsPage: FunctionComponent = () => {
               datasetFQN={tableFQN}
               deletePostHandler={deletePostHandler}
               descriptionUpdateHandler={descriptionUpdateHandler}
+              displayNameUpdateHandler={onDisplayNameUpdate}
               entityFieldTaskCount={entityFieldTaskCount}
               entityFieldThreadCount={entityFieldThreadCount}
               entityThread={entityThread}

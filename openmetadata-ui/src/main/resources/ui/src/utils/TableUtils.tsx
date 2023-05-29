@@ -345,6 +345,38 @@ export const getEntityIcon = (indexType: string) => {
   }
 };
 
+export const getEntityIconColor = (indexType: string) => {
+  switch (indexType) {
+    case SearchIndex.TOPIC:
+    case EntityType.TOPIC:
+      return '#047857';
+
+    case SearchIndex.DASHBOARD:
+    case EntityType.DASHBOARD:
+      return '#14b8a6';
+
+    case SearchIndex.MLMODEL:
+    case EntityType.MLMODEL:
+      return '#E54937';
+
+    case SearchIndex.PIPELINE:
+    case EntityType.PIPELINE:
+      return '#1890FF';
+
+    case SearchIndex.CONTAINER:
+    case EntityType.CONTAINER:
+      return '#a3e635';
+
+    case EntityType.DASHBOARD_DATA_MODEL:
+      return '#37352f';
+
+    case SearchIndex.TABLE:
+    case EntityType.TABLE:
+    default:
+      return '#276EF1';
+  }
+};
+
 export const makeRow = (column: Column) => {
   return {
     description: column.description || '',

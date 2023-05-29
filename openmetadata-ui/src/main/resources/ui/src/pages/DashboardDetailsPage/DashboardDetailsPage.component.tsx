@@ -60,7 +60,11 @@ import {
   getCurrentDashboardTab,
   sortTagsForCharts,
 } from '../../utils/DashboardDetailsUtils';
-import { getEntityFeedLink, getEntityName } from '../../utils/EntityUtils';
+import {
+  getEntityFeedLink,
+  getEntityName,
+  getEntityTags,
+} from '../../utils/EntityUtils';
 import { deletePost, updateThreadData } from '../../utils/FeedUtils';
 import { DEFAULT_ENTITY_PERMISSION } from '../../utils/PermissionsUtils';
 import { showErrorToast } from '../../utils/ToastUtils';
@@ -224,6 +228,8 @@ const DashboardDetailsPage = () => {
         serviceType: serviceType,
         timestamp: 0,
         id: id,
+        tags: getEntityTags(EntityType.DASHBOARD, res) || ([] as any),
+        description: res.description,
       });
 
       fetchCharts(ChartIds)

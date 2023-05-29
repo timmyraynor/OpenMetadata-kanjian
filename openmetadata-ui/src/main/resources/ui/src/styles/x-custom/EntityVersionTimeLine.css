@@ -10,6 +10,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+:root {
+  --primary: #047857;
+  --primary-partial: #04785760;
+}
+
 .timeline-drawer {
   height: 100%;
   background: white;
@@ -48,7 +54,7 @@
   border-color: #f9816c;
 }
 .timeline-rounder.selected {
-  border: 3px solid #7147e8;
+  border: 3px solid var(--primary);
 }
 
 .timeline-rounder.selected::after {
@@ -58,8 +64,8 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 2px solid #7147e8;
-  background-color: #7147e8;
+  border: 2px solid var(--primary);
+  background-color: var(--primary);
 }
 .timeline-rounder.major.selected::after {
   border-color: #f9816c;

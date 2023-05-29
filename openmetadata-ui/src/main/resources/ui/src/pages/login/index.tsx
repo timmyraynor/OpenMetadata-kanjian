@@ -209,6 +209,9 @@ const SigninPage = () => {
   const onClickForgotPassword = () => history.push(ROUTES.FORGOT_PASSWORD);
 
   return (
+    //    <ConfigProvider theme={{token: {
+    //                                    colorPrimary: '#047857',
+    //                                  },}}>
     <div className="d-flex flex-col h-full">
       <Row className="flex bg-body-main flex-grow" data-testid="signin-page">
         <Col span={10}>
@@ -347,6 +350,7 @@ const SigninPage = () => {
         </Col>
       </Row>
     </div>
+    //     </ConfigProvider>
   );
 };
 
