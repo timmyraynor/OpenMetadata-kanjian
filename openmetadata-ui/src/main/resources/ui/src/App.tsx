@@ -11,6 +11,7 @@
  *  limitations under the License.
  */
 
+// import 'antd/dist/antd.dark.css';
 import Appbar from 'components/app-bar/Appbar';
 import ApplicationConfigProvider from 'components/ApplicationConfigProvider/ApplicationConfigProvider';
 import { AuthProvider } from 'components/authentication/auth-provider/AuthProvider';
