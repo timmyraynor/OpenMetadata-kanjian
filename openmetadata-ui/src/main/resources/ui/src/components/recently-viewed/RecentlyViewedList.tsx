@@ -11,104 +11,146 @@
  *  limitations under the License.
  */
 
-import { Avatar, Card, Col, Row, Typography } from 'antd';
-import EntityListSkeleton from 'components/Skeleton/MyData/EntityListSkeleton/EntityListSkeleton.component';
+import { Button, List, Skeleton, Tag, Typography } from 'antd';
+import TagsViewer from 'components/Tag/TagsViewer/tags-viewer';
+import { TagLabel } from 'generated/type/tagLabel';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { getEntityName } from 'utils/EntityUtils';
+import { getEntityBaseName, getEntityName } from 'utils/EntityUtils';
+import { getEntityIconFlex, getEntityLink } from 'utils/TableUtils';
 import {
-  getEntityIcon,
-  getEntityIconColor,
-  getEntityLink,
-} from 'utils/TableUtils';
-import { EntityReference } from '../../generated/type/entityReference';
-import { getRecentlyViewedData, prepareLabel } from '../../utils/CommonUtils';
+  getRecentlyViewedData,
+  getServiceLogo,
+  getTagValue,
+  getTimeAgo,
+} from '../../utils/CommonUtils';
 import './recently-view-list.css';
-const { Meta } = Card;
+
+interface RecentlyViewListItem {
+  serviceType: string;
+  name: string;
+  displayName: string;
+  fullyQualifiedName: string;
+  type: string;
+  description: string;
+  tags: Array<TagLabel>;
+  timestamp: number;
+}
 
 const RecentlyViewedList: FunctionComponent = () => {
   const { t } = useTranslation();
   const recentlyViewedData = getRecentlyViewedData();
-  const [data, setData] = useState<Array<EntityReference>>([]);
+  const [data, setData] = useState<RecentlyViewListItem[]>([]);
   const [isLoading, setIsloading] = useState<boolean>(false);
+  const [initLoading, setInitLoading] = useState(true);
+  const [displayRecent, setDisplayRecent] = useState<RecentlyViewListItem[]>(
+    []
+  );
+  const limit = 3;
 
   const prepareData = () => {
     if (recentlyViewedData.length) {
-      setIsloading(true);
+      setInitLoading(true);
       const formattedData = recentlyViewedData
         .map((item) => {
           return {
             serviceType: item.serviceType,
-            name: item.displayName || prepareLabel(item.entityType, item.fqn),
+            name: item.name,
+            displayName: item.displayName || item.name,
             fullyQualifiedName: item.fqn,
             type: item.entityType,
             tags: item.tags,
             description: item.description,
+            timestamp: item.timestamp,
           };
         })
         .filter((item) => item.name);
-      setData(formattedData as unknown as EntityReference[]);
-      setIsloading(false);
+      setData(formattedData as unknown as RecentlyViewListItem[]);
+      setDisplayRecent(
+        formattedData.slice(0, limit) as unknown as RecentlyViewListItem[]
+      );
+      setInitLoading(false);
     }
   };
+
+  const onLoadMore = () => {
+    setIsloading(true);
+    setDisplayRecent(data);
+    setIsloading(false);
+  };
+
+  const loadMore =
+    !initLoading &&
+    !isLoading &&
+    displayRecent.length < recentlyViewedData.length ? (
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: 12,
+          height: 32,
+          lineHeight: '32px',
+        }}>
+        <Button onClick={onLoadMore}>{t('label.load-more')}</Button>
+      </div>
+    ) : null;
 
   useEffect(() => {
     prepareData();
   }, []);
 
   return (
-    <EntityListSkeleton
-      dataLength={data.length !== 0 ? data.length : 5}
-      loading={Boolean(isLoading)}>
-      <>
-        <div className="flex items-center" data-testid="recently-view-list">
-          <Typography.Text className="font-medium text-primary m-x-xss">
-            {t('label.recent-views')}
-          </Typography.Text>
-        </div>
-        <Row className="filters-container" gutter={16} justify="space-between">
-          {data.length
-            ? data.map((item) => {
-                return (
-                  <Col key={item.id} span={6}>
-                    <Card
-                      bordered={false}
-                      className="review-card-fix-height"
-                      size="small">
-                      <Meta
-                        avatar={
-                          item.type ? (
-                            <Avatar
-                              icon={getEntityIcon(item.type)}
-                              style={{
-                                backgroundColor: getEntityIconColor(item.type),
-                              }}
-                            />
-                          ) : (
-                            <Avatar />
-                          )
-                        }
-                        description={item.description || 'N/A'}
-                        title={
-                          <Link
-                            className="font-medium"
-                            to={getEntityLink(
-                              item.type || '',
-                              item.fullyQualifiedName as string
-                            )}>
-                            {getEntityName(item as unknown as EntityReference)}
-                          </Link>
-                        }
+    <div className="recent-view-panel">
+      <Typography.Title
+        className="common-left-panel-card-heading m-b-sm"
+        level={5}>
+        {t('label.recent-views')}
+      </Typography.Title>
+      <List
+        dataSource={displayRecent}
+        itemLayout="vertical"
+        loadMore={loadMore}
+        loading={initLoading}
+        renderItem={(item) => (
+          <List.Item extra={<div>{getTimeAgo(item.timestamp)}</div>}>
+            <Skeleton active avatar loading={false} title={false}>
+              <List.Item.Meta
+                avatar={
+                  <div
+                    className="tw-flex tw-justify-end"
+                    data-testid="service-icon">
+                    {getServiceLogo(item.serviceType || '', 'h-7')}
+                  </div>
+                }
+                description={
+                  <div>
+                    <Tag color="default" icon={getEntityIconFlex(item.type)}>
+                      {getEntityBaseName(item)}
+                    </Tag>
+                    {item.tags && item.tags.length > 0 ? (
+                      <TagsViewer
+                        sizeCap={-1}
+                        tags={(item.tags || []).map((tag) => getTagValue(tag))}
                       />
-                    </Card>
-                  </Col>
-                );
-              })
-            : t('message.no-recently-viewed-date')}
-        </Row>
-      </>
-    </EntityListSkeleton>
+                    ) : null}
+                  </div>
+                }
+                title={
+                  <a
+                    href={getEntityLink(
+                      item.type || '',
+                      item.fullyQualifiedName as string
+                    )}>
+                    {getEntityName(item)}
+                  </a>
+                }
+              />
+              <div>{item.description}</div>
+            </Skeleton>
+          </List.Item>
+        )}
+        size="small"
+      />
+    </div>
   );
 };
 

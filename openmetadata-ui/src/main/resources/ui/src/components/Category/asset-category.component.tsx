@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 Collate.
+ *  Copyright 2022 Collate.
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -10,16 +10,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-.recent-view-panel {
-  margin: 20px 30px;
-  /* border: 1px solid rgba(140, 140, 140, 0.35); */
-  /* padding: 1% 1%, */
-}
 
-.recent-view-panel .ant-list-item-meta-title {
-  margin-bottom: 0% !important;
-}
+import { FunctionComponent } from 'react';
 
-.recent-view-panel .ant-list-item-meta {
-  margin-bottom: 0%;
-}
+const AssetCategory: FunctionComponent = () => {
+  return null;
+};
+
+export default AssetCategory;

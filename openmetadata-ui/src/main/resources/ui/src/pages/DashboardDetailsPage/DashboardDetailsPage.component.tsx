@@ -61,6 +61,8 @@ import {
   sortTagsForCharts,
 } from '../../utils/DashboardDetailsUtils';
 import {
+  getEntityBaseName,
+  getEntityBusinessName,
   getEntityFeedLink,
   getEntityName,
   getEntityTags,
@@ -222,7 +224,8 @@ const DashboardDetailsPage = () => {
       ]);
 
       addToRecentViewed({
-        displayName: getEntityName(res),
+        displayName: getEntityBusinessName(res),
+        name: getEntityBaseName(res),
         entityType: EntityType.DASHBOARD,
         fqn: fullyQualifiedName ?? '',
         serviceType: serviceType,

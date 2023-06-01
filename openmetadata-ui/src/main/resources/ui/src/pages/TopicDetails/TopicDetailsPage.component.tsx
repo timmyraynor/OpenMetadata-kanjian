@@ -57,6 +57,8 @@ import {
   sortTagsCaseInsensitive,
 } from '../../utils/CommonUtils';
 import {
+  getEntityBaseName,
+  getEntityBusinessName,
   getEntityFeedLink,
   getEntityName,
   getEntityTags,
@@ -215,7 +217,8 @@ const TopicDetailsPage: FunctionComponent = () => {
       ]);
 
       addToRecentViewed({
-        displayName: getEntityName(res),
+        displayName: getEntityBusinessName(res),
+        name: getEntityBaseName(res),
         entityType: EntityType.TOPIC,
         fqn: fullyQualifiedName ?? '',
         serviceType: serviceType,

@@ -155,6 +155,7 @@ declare module 'Models' {
 
   interface RecentlyViewedData {
     displayName?: string;
+    name: string;
     entityType: 'table' | 'topic' | 'dashboard' | 'pipeline';
     fqn: string;
     serviceType?: string;

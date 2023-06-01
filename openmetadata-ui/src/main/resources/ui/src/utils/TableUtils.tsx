@@ -11,7 +11,15 @@
  *  limitations under the License.
  */
 
-import Icon from '@ant-design/icons';
+import Icon, {
+  BarChartOutlined,
+  ContainerOutlined,
+  ForkOutlined,
+  FunctionOutlined,
+  ShareAltOutlined,
+  TableOutlined,
+  UngroupOutlined,
+} from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import { ExpandableConfig } from 'antd/lib/table/interface';
 import { ReactComponent as IconFlatFolder } from 'assets/svg/folder.svg';
@@ -342,6 +350,50 @@ export const getEntityIcon = (indexType: string) => {
     case EntityType.TABLE:
     default:
       return <TableIcon />;
+  }
+};
+
+export const getEntityIconFlex = (
+  indexType: string,
+  styleDetails?: React.CSSProperties
+) => {
+  let styleStr;
+  if (styleDetails) {
+    styleStr = styleDetails;
+  } else {
+    styleStr = {
+      width: '1em',
+      height: '1em',
+    };
+  }
+  switch (indexType) {
+    case SearchIndex.TOPIC:
+    case EntityType.TOPIC:
+      return <ForkOutlined rotate={90} />;
+
+    case SearchIndex.DASHBOARD:
+    case EntityType.DASHBOARD:
+      return <BarChartOutlined />;
+
+    case SearchIndex.MLMODEL:
+    case EntityType.MLMODEL:
+      return <ShareAltOutlined />;
+
+    case SearchIndex.PIPELINE:
+    case EntityType.PIPELINE:
+      return <FunctionOutlined />;
+
+    case SearchIndex.CONTAINER:
+    case EntityType.CONTAINER:
+      return <ContainerOutlined />;
+
+    case EntityType.DASHBOARD_DATA_MODEL:
+      return <UngroupOutlined />;
+
+    case SearchIndex.TABLE:
+    case EntityType.TABLE:
+    default:
+      return <TableOutlined />;
   }
 };
 

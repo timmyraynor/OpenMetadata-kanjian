@@ -12,6 +12,7 @@
  */
 
 import { Card, Col, Divider, Row } from 'antd';
+import ActivityFeedList from 'components/ActivityFeed/ActivityFeedList/ActivityFeedList';
 import RecentlyViewedList from 'components/recently-viewed/RecentlyViewedList';
 import WelcomeScreen from 'components/WelcomeScreen/WelcomeScreen.component';
 import { ELASTICSEARCH_ERROR_PLACEHOLDER_TYPE } from 'enums/common.enum';
@@ -37,7 +38,6 @@ import { ThreadType } from '../../generated/entity/feed/thread';
 import { Paging } from '../../generated/type/paging';
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 import SVGIcons, { Icons } from '../../utils/SvgUtils';
-import ActivityFeedList from '../ActivityFeed/ActivityFeedList/ActivityFeedList';
 import ErrorPlaceHolderES from '../common/error-with-placeholder/ErrorPlaceHolderES';
 import PageLayoutV1 from '../containers/PageLayoutV1';
 import { EntityListWithAntd } from '../EntityList/EntityList';
@@ -217,6 +217,27 @@ const MyData: React.FC<MyDataProps> = ({
           />
         </div>
         <div className="tw-mt-5" />
+        <div data-testid="activity-feed-container">
+          {showActivityFeedList ? (
+            <ActivityFeedList
+              stickyFilter
+              withSidePanel
+              appliedFeedFilter={feedFilter}
+              deletePostHandler={deletePostHandler}
+              feedList={feedData}
+              isFeedLoading={isFeedLoading}
+              postFeedHandler={postFeedHandler}
+              refreshFeedCount={newFeedsLength}
+              updateThreadHandler={updateThreadHandler}
+              onFeedFiltersUpdate={handleFeedFilterChange}
+              onRefreshFeeds={onRefreshFeeds}
+            />
+          ) : (
+            !isFeedLoading && (
+              <WelcomeScreen onClose={() => updateWelcomeScreen(false)} />
+            )
+          )}
+        </div>
       </>
     );
   }, [ownedData, followedData, pendingTaskCount, isLoadingOwnedData]);
@@ -275,7 +296,7 @@ const MyData: React.FC<MyDataProps> = ({
       ) : (
         <>
           <RecentlyViewedList />
-          {showActivityFeedList ? (
+          {/* {showActivityFeedList ? (
             <ActivityFeedList
               stickyFilter
               withSidePanel
@@ -293,7 +314,7 @@ const MyData: React.FC<MyDataProps> = ({
             !isFeedLoading && (
               <WelcomeScreen onClose={() => updateWelcomeScreen(false)} />
             )
-          )}
+          )} */}
           {isFeedLoading ? <Loader /> : null}
           <div
             data-testid="observer-element"

@@ -46,7 +46,12 @@ import {
   getEntityMissingError,
   sortTagsCaseInsensitive,
 } from '../../utils/CommonUtils';
-import { getEntityName, getEntityTags } from '../../utils/EntityUtils';
+import {
+  getEntityBaseName,
+  getEntityBusinessName,
+  getEntityName,
+  getEntityTags,
+} from '../../utils/EntityUtils';
 import { DEFAULT_ENTITY_PERMISSION } from '../../utils/PermissionsUtils';
 import {
   defaultFields,
@@ -141,7 +146,8 @@ const PipelineDetailsPage = () => {
       ]);
 
       addToRecentViewed({
-        displayName: getEntityName(res),
+        name: getEntityBaseName(res),
+        displayName: getEntityBusinessName(res),
         entityType: EntityType.PIPELINE,
         fqn: fullyQualifiedName ?? '',
         serviceType: serviceType,

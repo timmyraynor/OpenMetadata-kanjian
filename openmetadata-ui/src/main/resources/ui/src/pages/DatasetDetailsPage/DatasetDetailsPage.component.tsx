@@ -74,6 +74,7 @@ import {
   getCurrentDatasetTab,
 } from '../../utils/DatasetDetailsUtils';
 import {
+  getEntityBaseName,
   getEntityBusinessName,
   getEntityFeedLink,
   getEntityName,
@@ -251,7 +252,7 @@ const DatasetDetailsPage: FunctionComponent = () => {
 
       addToRecentViewed({
         displayName: getEntityBusinessName(res),
-        // name: getEntityName(res),
+        name: getEntityBaseName(res),
         entityType: EntityType.TABLE,
         fqn: fullyQualifiedName ?? '',
         serviceType: serviceType,

@@ -317,7 +317,7 @@ export const addToRecentViewed = (eData: RecentlyViewedData): void => {
       .sort(arraySorterByKey<RecentlyViewedData>('timestamp', true));
     arrData.unshift(entityData);
 
-    if (arrData.length > 4) {
+    if (arrData.length > 10) {
       arrData.pop();
     }
     recentlyViewed.data = arrData;
@@ -887,6 +887,31 @@ export const reducerWithoutAction = <S, A>(state: S, action: A) => {
     ...state,
     ...action,
   };
+};
+
+/**
+ * Function which will convert timestamp to "how long ago from now"
+ * @param timestamp timestamp in number format like 1685362875429
+ * @returns
+ */
+export const getTimeAgo = (timestamp: number): string => {
+  const currentTime = new Date().getTime();
+  const timeDiff = currentTime - timestamp;
+
+  const seconds = Math.floor(timeDiff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) {
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  } else if (hours > 0) {
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  } else if (minutes > 0) {
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+  } else {
+    return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
+  }
 };
 
 /**
