@@ -14,13 +14,14 @@
 import { AxiosError } from 'axios';
 import { ModifiedGlossaryTerm } from 'components/Glossary/GlossaryTermTab/GlossaryTermTab.interface';
 import { GlossaryCSVRecord } from 'components/Glossary/ImportGlossary/ImportGlossary.interface';
+import { GlossaryTerm } from 'generated/entity/data/glossaryTerm';
+import { Level } from 'generated/type/schema';
 import { isEmpty, isUndefined, omit } from 'lodash';
 import { ListGlossaryTermsParams } from 'rest/glossaryAPI';
 import { searchData } from 'rest/miscAPI';
 import { WILD_CARD_CHAR } from '../constants/char.constants';
 import { SearchIndex } from '../enums/search.enum';
 import { Glossary } from '../generated/entity/data/glossary';
-import { GlossaryTerm } from '../generated/entity/data/glossaryTerm';
 import { EntityReference } from '../generated/type/entityReference';
 import { SearchResponse } from '../interface/search.interface';
 import { formatSearchGlossaryTermResponse } from './APIUtils';
@@ -225,6 +226,21 @@ export const getQueryFilterToExcludeTerm = (fqn: string) => ({
     },
   },
 });
+
+export const glossaryTermLevelOptions = () => {
+  return [
+    {
+      value: Level.Leaf,
+      label: 'Term',
+      key: 1,
+    },
+    {
+      value: Level.Entity,
+      label: 'Domain',
+      key: 2,
+    },
+  ];
+};
 
 export const formatRelatedTermOptions = (
   data: EntityReference[] | undefined

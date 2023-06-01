@@ -29,6 +29,7 @@ import { UserTeamSelectableList } from 'components/common/UserTeamSelectableList
 import { PAGE_SIZE } from 'constants/constants';
 import { ENTITY_NAME_REGEX } from 'constants/regex.constants';
 import { SearchIndex } from 'enums/search.enum';
+import { Level } from 'generated/type/schema';
 import { t } from 'i18next';
 import { debounce } from 'lodash';
 import TagSuggestion from 'pages/TasksPage/shared/TagSuggestion';
@@ -39,6 +40,7 @@ import { getEntityName } from 'utils/EntityUtils';
 import {
   formatRelatedTermOptions,
   getEntityReferenceFromGlossaryTerm,
+  glossaryTermLevelOptions,
 } from 'utils/GlossaryUtils';
 import { EntityReference } from '../../generated/type/entityReference';
 import { getCurrentUserId } from '../../utils/CommonUtils';
@@ -60,6 +62,7 @@ const AddGlossaryTermForm = ({
   const markdownRef = useRef<EditorContentRef>();
   const [reviewer, setReviewer] = useState<Array<EntityReference>>([]);
   const [relatedTerms, setRelatedTerms] = useState<EntityReference[]>([]);
+  const [level, setTermLevel] = useState<Level>(Level.Leaf);
   const [owner, setOwner] = useState<EntityReference | undefined>();
   const [isSuggestionLoading, setIsSuggestionLoading] =
     useState<boolean>(false);
@@ -107,6 +110,7 @@ const AddGlossaryTermForm = ({
       description = '',
       synonyms = [],
       tags = [],
+      level = Level.Leaf,
       mutuallyExclusive = false,
       references = [],
     } = formObj;
@@ -128,6 +132,7 @@ const AddGlossaryTermForm = ({
       relatedTerms: updatedTerms.length > 0 ? updatedTerms : undefined,
       references: references.length > 0 ? references : undefined,
       synonyms: synonyms,
+      level: level,
       mutuallyExclusive,
       tags: tags,
       owner: selectedOwner,
@@ -159,9 +164,10 @@ const AddGlossaryTermForm = ({
         description,
         synonyms,
         tags,
+        level,
         references,
         mutuallyExclusive,
-        relatedTerms: relatedTerms?.map((r) => r.id || ''),
+        relatedTerms: relatedTerms?.map((r: any) => r.id || ''),
       });
 
       if (reviewers) {
@@ -294,6 +300,31 @@ const AddGlossaryTermForm = ({
             }}
             onFocus={() => suggestionSearch()}
             onSearch={debounceOnSearch}
+          />
+        </Form.Item>
+
+        <Form.Item
+          data-testid="level"
+          id="level"
+          label={t('label.level')}
+          name="level">
+          <Select
+            className="glossary-select"
+            filterOption={false}
+            notFoundContent={isSuggestionLoading ? <Spin size="small" /> : null}
+            options={glossaryTermLevelOptions()}
+            placeholder={t('label.add-entity', {
+              entity: t('label.level'),
+            })}
+            onChange={(_, data) => {
+              if (Array.isArray(data)) {
+                // single option should always be one
+              } else {
+                // Handle the single object case
+                const opt: { value: any; label: string; key: number } = data;
+                setTermLevel(opt.value);
+              }
+            }}
           />
         </Form.Item>
 

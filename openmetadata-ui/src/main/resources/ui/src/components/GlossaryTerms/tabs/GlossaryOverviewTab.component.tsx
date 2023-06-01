@@ -12,11 +12,13 @@
  */
 import { Card, Col, Row, Space } from 'antd';
 import DescriptionV1 from 'components/common/description/DescriptionV1';
+import GlossaryHierarchy from 'components/common/glossaryHierarchy/GlossaryHierarchyV1.component';
 import GlossaryDetailsRightPanel from 'components/GlossaryDetailsRightPanel/GlossaryDetailsRightPanel.component';
 import { OperationPermission } from 'components/PermissionProvider/PermissionProvider.interface';
 import TagsInput from 'components/TagsInput/TagsInput.component';
 import { Glossary, TagLabel } from 'generated/entity/data/glossary';
 import { GlossaryTerm } from 'generated/entity/data/glossaryTerm';
+import { Level } from 'generated/type/schema';
 import React, { useMemo, useState } from 'react';
 import GlossaryTermReferences from './GlossaryTermReferences';
 import GlossaryTermSynonyms from './GlossaryTermSynonyms';
@@ -37,6 +39,8 @@ const GlossaryOverviewTab = ({
 }: Props) => {
   const [isDescriptionEditable, setIsDescriptionEditable] =
     useState<boolean>(false);
+
+  const [isLevelEdit, setIsLevelEdit] = useState<boolean>(false);
 
   const onDescriptionUpdate = async (updatedHTML: string) => {
     if (selectedData.description !== updatedHTML) {
@@ -71,6 +75,30 @@ const GlossaryOverviewTab = ({
       <Col data-testid="updated-by-container" span={18}>
         <Card>
           <Row gutter={[0, 32]}>
+            <Col span={24}>
+              <GlossaryHierarchy
+                glossaryTerm={selectedData as any as GlossaryTerm}
+                hasEditAccess={permissions.EditAll}
+                isEdit={isLevelEdit}
+                updateHierarchy={(newLevel: Level) => {
+                  if (
+                    newLevel !== (selectedData as any as GlossaryTerm).level
+                  ) {
+                    const updatedData = {
+                      ...selectedData,
+                      level: newLevel,
+                    };
+                    onUpdate(updatedData);
+                  }
+                }}
+                onCancel={() => {
+                  setIsLevelEdit(false);
+                }}
+                onHierarchyUpdate={() => {
+                  setIsLevelEdit(true);
+                }}
+              />
+            </Col>
             <Col span={24}>
               <DescriptionV1
                 description={selectedData?.description || ''}

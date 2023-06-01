@@ -18,13 +18,13 @@ import GlossaryHeader from 'components/Glossary/GlossaryHeader/GlossaryHeader.co
 import GlossaryTermTab from 'components/Glossary/GlossaryTermTab/GlossaryTermTab.component';
 import { getGlossaryTermDetailsPath } from 'constants/constants';
 import { myDataSearchIndex } from 'constants/Mydata.constants';
+import { GlossaryTerm } from 'generated/entity/data/glossaryTerm';
 import { t } from 'i18next';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { searchData } from 'rest/miscAPI';
 import { getCountBadge } from 'utils/CommonUtils';
 import { getGlossaryTermsVersionsPath } from 'utils/RouterUtils';
-import { GlossaryTerm } from '../../generated/entity/data/glossaryTerm';
 import { OperationPermission } from '../PermissionProvider/PermissionProvider.interface';
 import AssetsTabs, { AssetsTabRef } from './tabs/AssetsTabs.component';
 import GlossaryOverviewTab from './tabs/GlossaryOverviewTab.component';

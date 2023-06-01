@@ -42,6 +42,10 @@
         "$ref" : "../../type/basic.json#/definitions/fullyQualifiedEntityName"
       }
     },
+    "level": {
+      "description": "Label is a parent Entity or a node Leaf",
+      "$ref": "../../entity/data/glossaryTerm.json#/definitions/level"
+    },
     "references": {
       "description": "Link to a reference from an external glossary.",
       "type": "array",

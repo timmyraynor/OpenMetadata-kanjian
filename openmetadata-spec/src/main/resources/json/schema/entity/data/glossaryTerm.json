@@ -26,6 +26,11 @@
       "type": "string",
       "enum": ["Draft", "Approved", "Deprecated"],
       "default": "Draft"
+    },
+    "level": {
+      "type": "string",
+      "default": "Leaf",
+      "enum": ["Entity", "Leaf"]
     }
   },
   "properties": {
@@ -78,6 +83,10 @@
       "items": {
         "$ref": "../../entity/data/glossaryTerm.json#/definitions/termReference"
       }
+    },
+    "level": {
+      "description": "Label is a parent Entity or a node Leaf",
+      "$ref": "#/definitions/level"
     },
     "version": {
       "description": "Metadata version of the entity.",
