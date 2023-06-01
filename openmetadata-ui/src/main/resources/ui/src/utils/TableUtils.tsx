@@ -353,19 +353,7 @@ export const getEntityIcon = (indexType: string) => {
   }
 };
 
-export const getEntityIconFlex = (
-  indexType: string,
-  styleDetails?: React.CSSProperties
-) => {
-  let styleStr;
-  if (styleDetails) {
-    styleStr = styleDetails;
-  } else {
-    styleStr = {
-      width: '1em',
-      height: '1em',
-    };
-  }
+export const getEntityIconFlex = (indexType: string) => {
   switch (indexType) {
     case SearchIndex.TOPIC:
     case EntityType.TOPIC:
