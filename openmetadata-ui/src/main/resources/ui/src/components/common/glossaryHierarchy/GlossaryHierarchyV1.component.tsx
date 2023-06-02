@@ -19,7 +19,7 @@ import { GlossaryTerm } from 'generated/entity/data/glossaryTerm';
 import { Level } from 'generated/type/schema';
 import { t } from 'i18next';
 import React, { FC, useState } from 'react';
-import { glossaryTermLevelOptions } from 'utils/GlossaryUtils';
+import { getLevelName, glossaryTermLevelOptions } from 'utils/GlossaryUtils';
 const { Text } = Typography;
 
 interface GlossaryHierarchyProps {
@@ -82,6 +82,7 @@ const GlossaryHierarchy: FC<GlossaryHierarchyProps> = ({
               rules={[{ required: true }]}>
               <Col span={18}>
                 <Select
+                  defaultValue={glossaryTerm.level}
                   options={glossaryTermLevelOptions()}
                   placeholder={t('label.level')}
                   onChange={(_, data) => {
@@ -121,7 +122,7 @@ const GlossaryHierarchy: FC<GlossaryHierarchyProps> = ({
               </Col>
             </Form.Item>
           ) : glossaryTerm ? (
-            <span>{glossaryTerm.level?.trim()}</span>
+            <span>{getLevelName(glossaryTerm?.level || Level.Term)}</span>
           ) : (
             <span>{t('label.none')}</span>
           )}

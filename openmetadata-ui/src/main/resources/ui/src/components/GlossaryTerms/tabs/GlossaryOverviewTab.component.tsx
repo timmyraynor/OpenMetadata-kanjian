@@ -89,6 +89,7 @@ const GlossaryOverviewTab = ({
                       level: newLevel,
                     };
                     onUpdate(updatedData);
+                    setIsLevelEdit(false);
                   }
                 }}
                 onCancel={() => {

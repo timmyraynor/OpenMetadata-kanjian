@@ -52,8 +52,8 @@ import org.openmetadata.service.util.FullyQualifiedName;
 
 @Slf4j
 public class GlossaryTermRepository extends EntityRepository<GlossaryTerm> {
-  private static final String UPDATE_FIELDS = "tags,references,relatedTerms,reviewers,owner,synonyms";
-  private static final String PATCH_FIELDS = "tags,references,relatedTerms,reviewers,owner,synonyms";
+  private static final String UPDATE_FIELDS = "tags,references,relatedTerms,reviewers,owner,synonyms,level";
+  private static final String PATCH_FIELDS = "tags,references,relatedTerms,reviewers,owner,synonyms,level";
 
   public GlossaryTermRepository(CollectionDAO dao) {
     super(
@@ -264,6 +264,7 @@ public class GlossaryTermRepository extends EntityRepository<GlossaryTerm> {
       updateReviewers(original, updated);
       updateName(original, updated);
       updateParent(original, updated);
+      updateLevel(original, updated);
     }
 
     @Override
@@ -339,6 +340,22 @@ public class GlossaryTermRepository extends EntityRepository<GlossaryTerm> {
             .tagUsageDAO()
             .rename(TagSource.GLOSSARY.ordinal(), original.getFullyQualifiedName(), updated.getFullyQualifiedName());
         recordChange("name", original.getName(), updated.getName());
+      }
+    }
+
+    public void updateLevel(GlossaryTerm original, GlossaryTerm updated) throws IOException {
+      if (!original.getLevel().equals(updated.getLevel())) {
+        if (ProviderType.SYSTEM.equals(original.getProvider())) {
+          throw new IllegalArgumentException(
+              CatalogExceptionMessage.systemEntityRenameNotAllowed(original.getName(), entityType));
+        }
+        // Glossary term name changed - update the FQNs of the children terms to reflect this
+        LOG.info("Glossary term level changed from {} to {}", original.getLevel(), updated.getLevel());
+        daoCollection.glossaryTermDAO().updateFqn(original.getFullyQualifiedName(), updated.getFullyQualifiedName());
+        daoCollection
+            .tagUsageDAO()
+            .rename(TagSource.GLOSSARY.ordinal(), original.getFullyQualifiedName(), updated.getFullyQualifiedName());
+        recordChange("level", original.getLevel(), updated.getLevel());
       }
     }
 
