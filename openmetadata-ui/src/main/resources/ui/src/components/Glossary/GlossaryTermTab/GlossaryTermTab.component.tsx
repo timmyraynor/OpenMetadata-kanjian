@@ -12,12 +12,6 @@
  */
 
 import {
-  BlockOutlined,
-  BookOutlined,
-  FolderOpenOutlined,
-  RiseOutlined,
-} from '@ant-design/icons';
-import {
   Button,
   Col,
   Modal,
@@ -54,7 +48,7 @@ import { Transi18next } from 'utils/CommonUtils';
 import { getEntityName } from 'utils/EntityUtils';
 import { buildTree, getLevelName } from 'utils/GlossaryUtils';
 import { getGlossaryPath } from 'utils/RouterUtils';
-import { getTableExpandableConfig } from 'utils/TableUtils';
+import { getEntityTermIcon, getTableExpandableConfig } from 'utils/TableUtils';
 import { showErrorToast } from 'utils/ToastUtils';
 import {
   DraggableBodyRowProps,
@@ -84,21 +78,6 @@ const GlossaryTermTab = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
 
-  const getEntityTermIcon = (data: GlossaryTerm) => {
-    switch (data.level) {
-      case Level.Domain:
-        return <FolderOpenOutlined />;
-      case Level.Subdomain:
-        return <BlockOutlined />;
-      case Level.Metric:
-        return <RiseOutlined />;
-      case Level.Term:
-        return <BookOutlined />;
-      default:
-        return <BookOutlined />;
-    }
-  };
-
   const columns = useMemo(() => {
     const data: ColumnsType<ModifiedGlossaryTerm> = [
       {
@@ -108,7 +87,7 @@ const GlossaryTermTab = ({
         className: 'glossary-name-column',
         render: (_, record) => {
           const name = getEntityName(record);
-          const icon = getEntityTermIcon(record as GlossaryTerm);
+          const icon = getEntityTermIcon(record as GlossaryTerm, '16px');
 
           return (
             <Link

@@ -15,7 +15,6 @@ import { Button, Col, Dropdown, Row, Space, Tooltip, Typography } from 'antd';
 import { ReactComponent as EditIcon } from 'assets/svg/edit-new.svg';
 import { ReactComponent as IconFolder } from 'assets/svg/folder.svg';
 import { ReactComponent as ExportIcon } from 'assets/svg/ic-export.svg';
-import { ReactComponent as IconFlatDoc } from 'assets/svg/ic-flat-doc.svg';
 import { ReactComponent as ImportIcon } from 'assets/svg/ic-import.svg';
 import { ReactComponent as IconDropdown } from 'assets/svg/menu.svg';
 import { TitleBreadcrumbProps } from 'components/common/title-breadcrumb/title-breadcrumb.interface';
@@ -44,6 +43,7 @@ import {
   getGlossaryVersionsPath,
 } from 'utils/RouterUtils';
 import SVGIcons, { Icons } from 'utils/SvgUtils';
+import { getEntityTermIcon } from 'utils/TableUtils';
 import ExportGlossaryModal from '../ExportGlossaryModal/ExportGlossaryModal';
 import { GlossaryAction } from '../GlossaryV1.interfaces';
 
@@ -416,12 +416,13 @@ const GlossaryHeader = ({
                   width={32}
                 />
               ) : (
-                <IconFlatDoc
-                  color={DE_ACTIVE_COLOR}
-                  height={36}
-                  name="doc"
-                  width={32}
-                />
+                // <IconFlatDoc
+                //   color={DE_ACTIVE_COLOR}
+                //   height={36}
+                //   name="doc"
+                //   width={32}
+                // />
+                getEntityTermIcon(selectedData as GlossaryTerm, '32px')
               )
             }
             serviceName=""

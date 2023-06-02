@@ -13,10 +13,14 @@
 
 import Icon, {
   BarChartOutlined,
+  BlockOutlined,
+  BookOutlined,
   ContainerOutlined,
   DeploymentUnitOutlined,
+  FolderOpenOutlined,
   ForkOutlined,
   FunctionOutlined,
+  RiseOutlined,
   TableOutlined,
   UngroupOutlined,
 } from '@ant-design/icons';
@@ -27,6 +31,8 @@ import { ReactComponent as ContainerIcon } from 'assets/svg/ic-storage.svg';
 import { ReactComponent as IconTag } from 'assets/svg/tag-grey.svg';
 import classNames from 'classnames';
 import { SourceType } from 'components/searched-data/SearchedData.interface';
+import { GlossaryTerm } from 'generated/entity/data/glossaryTerm';
+import { Level } from 'generated/type/schema';
 import { t } from 'i18next';
 import { upperCase } from 'lodash';
 import { EntityTags } from 'Models';
@@ -350,6 +356,21 @@ export const getEntityIcon = (indexType: string) => {
     case EntityType.TABLE:
     default:
       return <TableIcon />;
+  }
+};
+
+export const getEntityTermIcon = (data: GlossaryTerm, iconSize: string) => {
+  switch (data.level) {
+    case Level.Domain:
+      return <FolderOpenOutlined style={{ fontSize: iconSize }} />;
+    case Level.Subdomain:
+      return <BlockOutlined style={{ fontSize: iconSize }} />;
+    case Level.Metric:
+      return <RiseOutlined style={{ fontSize: iconSize }} />;
+    case Level.Term:
+      return <BookOutlined style={{ fontSize: iconSize }} />;
+    default:
+      return <BookOutlined style={{ fontSize: iconSize }} />;
   }
 };
 
