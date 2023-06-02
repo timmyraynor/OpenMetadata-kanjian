@@ -64,21 +64,7 @@ import org.openmetadata.schema.entity.Type;
 import org.openmetadata.schema.entity.automations.Workflow;
 import org.openmetadata.schema.entity.classification.Classification;
 import org.openmetadata.schema.entity.classification.Tag;
-import org.openmetadata.schema.entity.data.Chart;
-import org.openmetadata.schema.entity.data.Container;
-import org.openmetadata.schema.entity.data.Dashboard;
-import org.openmetadata.schema.entity.data.DashboardDataModel;
-import org.openmetadata.schema.entity.data.Database;
-import org.openmetadata.schema.entity.data.DatabaseSchema;
-import org.openmetadata.schema.entity.data.Glossary;
-import org.openmetadata.schema.entity.data.GlossaryTerm;
-import org.openmetadata.schema.entity.data.Metrics;
-import org.openmetadata.schema.entity.data.MlModel;
-import org.openmetadata.schema.entity.data.Pipeline;
-import org.openmetadata.schema.entity.data.Query;
-import org.openmetadata.schema.entity.data.Report;
-import org.openmetadata.schema.entity.data.Table;
-import org.openmetadata.schema.entity.data.Topic;
+import org.openmetadata.schema.entity.data.*;
 import org.openmetadata.schema.entity.events.EventSubscription;
 import org.openmetadata.schema.entity.policies.Policy;
 import org.openmetadata.schema.entity.services.DashboardService;
@@ -1353,6 +1339,23 @@ public interface CollectionDAO {
     @Override
     default Class<GlossaryTerm> getEntityClass() {
       return GlossaryTerm.class;
+    }
+
+    @Override
+    default String getNameColumn() {
+      return "fullyQualifiedName";
+    }
+  }
+
+  interface PolicyChapterDAO extends EntityDAO<PolicyChapter> {
+    @Override
+    default String getTableName() {
+      return "policy_chapter_entity";
+    }
+
+    @Override
+    default Class<PolicyChapter> getEntityClass() {
+      return PolicyChapter.class;
     }
 
     @Override
