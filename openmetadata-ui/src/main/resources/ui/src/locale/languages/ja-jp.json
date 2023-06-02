@@ -208,6 +208,7 @@
     "date-filter": "日付のフィルタ",
     "day": "日",
     "day-left": "{{day}}経過",
+    "day-plural": "日",
     "days-change-lowercase": "{{days}}-days change",
     "dbt-bucket-name": "dbt Bucket Name",
     "dbt-catalog-file-path": "dbt Catalog File Path",

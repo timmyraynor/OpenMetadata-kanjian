@@ -23,3 +23,11 @@
 .recent-view-panel .ant-list-item-meta {
   margin-bottom: 0%;
 }
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2; /* Set the desired number of lines to display */
+}

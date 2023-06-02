@@ -25,6 +25,7 @@ import {
   getTimeAgo,
 } from '../../utils/CommonUtils';
 import './recently-view-list.css';
+const { Text } = Typography;
 
 interface RecentlyViewListItem {
   serviceType: string;
@@ -144,7 +145,9 @@ const RecentlyViewedList: FunctionComponent = () => {
                   </a>
                 }
               />
-              <div>{item.description}</div>
+              <div>
+                <Text className="line-clamp">{item.description}</Text>
+              </div>
             </Skeleton>
           </List.Item>
         )}
