@@ -29,8 +29,8 @@
     },
     "level": {
       "type": "string",
-      "default": "Leaf",
-      "enum": ["Entity", "Leaf"]
+      "default": "Term",
+      "enum": ["Domain", "Subdomain", "Metric", "Term"]
     }
   },
   "properties": {

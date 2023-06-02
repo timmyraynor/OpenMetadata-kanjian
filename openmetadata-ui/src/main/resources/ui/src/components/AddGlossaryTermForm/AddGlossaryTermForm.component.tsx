@@ -62,7 +62,7 @@ const AddGlossaryTermForm = ({
   const markdownRef = useRef<EditorContentRef>();
   const [reviewer, setReviewer] = useState<Array<EntityReference>>([]);
   const [relatedTerms, setRelatedTerms] = useState<EntityReference[]>([]);
-  const [level, setTermLevel] = useState<Level>(Level.Leaf);
+  const [level, setTermLevel] = useState<Level>(Level.Term);
   const [owner, setOwner] = useState<EntityReference | undefined>();
   const [isSuggestionLoading, setIsSuggestionLoading] =
     useState<boolean>(false);
@@ -110,7 +110,7 @@ const AddGlossaryTermForm = ({
       description = '',
       synonyms = [],
       tags = [],
-      level = Level.Leaf,
+      level = Level.Term,
       mutuallyExclusive = false,
       references = [],
     } = formObj;

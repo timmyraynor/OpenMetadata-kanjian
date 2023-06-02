@@ -12,6 +12,12 @@
  */
 
 import {
+  BlockOutlined,
+  BookOutlined,
+  FolderOpenOutlined,
+  RiseOutlined,
+} from '@ant-design/icons';
+import {
   Button,
   Col,
   Modal,
@@ -36,6 +42,7 @@ import { TABLE_CONSTANTS } from 'constants/Teams.constants';
 import { ERROR_PLACEHOLDER_TYPE } from 'enums/common.enum';
 import { compare } from 'fast-json-patch';
 import { GlossaryTerm } from 'generated/entity/data/glossaryTerm';
+import { Level } from 'generated/type/tagLabel';
 import { isEmpty } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { DndProvider } from 'react-dnd';
@@ -45,7 +52,7 @@ import { Link } from 'react-router-dom';
 import { patchGlossaryTerm } from 'rest/glossaryAPI';
 import { Transi18next } from 'utils/CommonUtils';
 import { getEntityName } from 'utils/EntityUtils';
-import { buildTree } from 'utils/GlossaryUtils';
+import { buildTree, getLevelName } from 'utils/GlossaryUtils';
 import { getGlossaryPath } from 'utils/RouterUtils';
 import { getTableExpandableConfig } from 'utils/TableUtils';
 import { showErrorToast } from 'utils/ToastUtils';
@@ -77,6 +84,21 @@ const GlossaryTermTab = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
 
+  const getEntityTermIcon = (data: GlossaryTerm) => {
+    switch (data.level) {
+      case Level.Domain:
+        return <FolderOpenOutlined />;
+      case Level.Subdomain:
+        return <BlockOutlined />;
+      case Level.Metric:
+        return <RiseOutlined />;
+      case Level.Term:
+        return <BookOutlined />;
+      default:
+        return <BookOutlined />;
+    }
+  };
+
   const columns = useMemo(() => {
     const data: ColumnsType<ModifiedGlossaryTerm> = [
       {
@@ -86,16 +108,28 @@ const GlossaryTermTab = ({
         className: 'glossary-name-column',
         render: (_, record) => {
           const name = getEntityName(record);
+          const icon = getEntityTermIcon(record as GlossaryTerm);
 
           return (
             <Link
               className="hover:tw-underline tw-cursor-pointer help-text"
               data-testid={name}
               to={getGlossaryPath(record.fullyQualifiedName || record.name)}>
-              {name}
+              {icon} {name}
             </Link>
           );
         },
+      },
+      {
+        title: t('label.level'),
+        dataIndex: 'level',
+        key: 'level',
+        render: (level: Level) =>
+          level ? (
+            getLevelName(level)
+          ) : (
+            <span className="tw-no-level">{t('label.none')}</span>
+          ),
       },
       {
         title: t('label.description'),

@@ -17,8 +17,8 @@
     },
     "level": {
       "type": "string",
-      "default": "Leaf",
-      "enum": ["Entity", "Leaf"]
+      "default": "Term",
+      "enum": ["Domain", "Subdomain", "Metric", "Term"]
     }
   },
   "properties": {
@@ -35,7 +35,7 @@
     },
     "level": {
       "description": "Label is a parent Entity or a node Leaf",
-      "$ref": "../entity/data/glossaryTerm.json#/definitions/level"
+      "$ref": "#/definitions/level"
     },
     "labelType": {
       "description": "Label type describes how a tag label was applied. 'Manual' indicates the tag label was applied by a person. 'Derived' indicates a tag label was derived using the associated tag relationship (see Classification.json for more details). 'Propagated` indicates a tag label was propagated from upstream based on lineage. 'Automated' is used when a tool was used to determine the tag label.",

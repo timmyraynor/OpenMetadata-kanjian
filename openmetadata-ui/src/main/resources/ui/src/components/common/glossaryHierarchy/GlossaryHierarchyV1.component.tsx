@@ -41,7 +41,7 @@ const GlossaryHierarchy: FC<GlossaryHierarchyProps> = ({
   onCancel,
   wrapInCard,
 }) => {
-  const [selectedTerm, setSelectedTerm] = useState<Level>(Level.Leaf);
+  const [selectedTerm, setSelectedTerm] = useState<Level>(Level.Term);
 
   const editButton = () => {
     return hasEditAccess ? (
@@ -101,14 +101,14 @@ const GlossaryHierarchy: FC<GlossaryHierarchyProps> = ({
                   <div>
                     <Button
                       className="p-x-05"
-                      data-testid="cancelAssociatedTag"
+                      data-testid="cancelHierarchyUpdate"
                       icon={<CloseOutlined size={12} />}
                       size="small"
                       onClick={onCancel}
                     />
                     <Button
                       className="p-x-05"
-                      data-testid="saveAssociatedTag"
+                      data-testid="saveHierarchyUpdate"
                       icon={<CheckOutlined size={12} />}
                       size="small"
                       type="primary"

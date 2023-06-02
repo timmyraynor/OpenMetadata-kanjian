@@ -14,9 +14,9 @@
 import Icon, {
   BarChartOutlined,
   ContainerOutlined,
+  DeploymentUnitOutlined,
   ForkOutlined,
   FunctionOutlined,
-  ShareAltOutlined,
   TableOutlined,
   UngroupOutlined,
 } from '@ant-design/icons';
@@ -365,7 +365,7 @@ export const getEntityIconFlex = (indexType: string) => {
 
     case SearchIndex.MLMODEL:
     case EntityType.MLMODEL:
-      return <ShareAltOutlined />;
+      return <DeploymentUnitOutlined />;
 
     case SearchIndex.PIPELINE:
     case EntityType.PIPELINE:

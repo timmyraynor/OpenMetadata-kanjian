@@ -16,6 +16,7 @@ import { ModifiedGlossaryTerm } from 'components/Glossary/GlossaryTermTab/Glossa
 import { GlossaryCSVRecord } from 'components/Glossary/ImportGlossary/ImportGlossary.interface';
 import { GlossaryTerm } from 'generated/entity/data/glossaryTerm';
 import { Level } from 'generated/type/schema';
+import { t } from 'i18next';
 import { isEmpty, isUndefined, omit } from 'lodash';
 import { ListGlossaryTermsParams } from 'rest/glossaryAPI';
 import { searchData } from 'rest/miscAPI';
@@ -230,16 +231,33 @@ export const getQueryFilterToExcludeTerm = (fqn: string) => ({
 export const glossaryTermLevelOptions = () => {
   return [
     {
-      value: Level.Leaf,
-      label: 'Term',
+      value: Level.Term,
+      label: t('label.glossary-term'),
       key: 1,
     },
     {
-      value: Level.Entity,
-      label: 'Domain',
+      value: Level.Metric,
+      label: t('label.metric'),
       key: 2,
     },
+    {
+      value: Level.Subdomain,
+      label: t('label.sub-domain'),
+      key: 3,
+    },
+    {
+      value: Level.Domain,
+      label: t('label.domain'),
+      key: 4,
+    },
   ];
+};
+
+export const getLevelName = (level: Level) => {
+  const allLevels = glossaryTermLevelOptions();
+  const matchedLevel = allLevels.find((item) => item.value === level);
+
+  return matchedLevel ? matchedLevel.label : null;
 };
 
 export const formatRelatedTermOptions = (
