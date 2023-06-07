@@ -250,6 +250,16 @@ export const glossaryTermLevelOptions = () => {
       label: t('label.domain'),
       key: 4,
     },
+    {
+      value: Level.Chapter,
+      label: t('label.chapter'),
+      key: 5,
+    },
+    {
+      value: Level.Policy,
+      label: t('label.policy'),
+      key: 6,
+    },
   ];
 };
 

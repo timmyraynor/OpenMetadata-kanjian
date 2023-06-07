@@ -30,7 +30,7 @@
     "level": {
       "type": "string",
       "default": "Term",
-      "enum": ["Domain", "Subdomain", "Metric", "Term"]
+      "enum": ["Policy", "Chapter", "Domain", "Subdomain", "Metric", "Term"]
     }
   },
   "properties": {
@@ -53,6 +53,10 @@
     "fullyQualifiedName": {
       "description": "A unique name that identifies a glossary term. It captures name hierarchy of glossary of terms in the form of `glossaryName.parentTerm.childTerm`.",
       "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "quickLink": {
+      "description": "A flag indicate if this entity should become a quickLink item which will show on the main page, default should be false",
+      "type": "boolean"
     },
     "synonyms": {
       "description": "Alternate names that are synonyms or near-synonyms for the glossary term.",

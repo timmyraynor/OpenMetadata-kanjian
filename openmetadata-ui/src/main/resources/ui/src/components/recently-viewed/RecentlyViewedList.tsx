@@ -11,11 +11,10 @@
  *  limitations under the License.
  */
 
-import { Button, List, Skeleton, Tag, Typography } from 'antd';
+import { List, Skeleton, Tag, Typography } from 'antd';
 import TagsViewer from 'components/Tag/TagsViewer/tags-viewer';
 import { TagLabel } from 'generated/type/tagLabel';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { getEntityBaseName, getEntityName } from 'utils/EntityUtils';
 import { getEntityIconFlex, getEntityLink } from 'utils/TableUtils';
 import {
@@ -39,15 +38,15 @@ interface RecentlyViewListItem {
 }
 
 const RecentlyViewedList: FunctionComponent = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const recentlyViewedData = getRecentlyViewedData();
-  const [data, setData] = useState<RecentlyViewListItem[]>([]);
-  const [isLoading, setIsloading] = useState<boolean>(false);
+  // const [data, setData] = useState<RecentlyViewListItem[]>([]);
+  // const [isLoading, setIsloading] = useState<boolean>(false);
   const [initLoading, setInitLoading] = useState(true);
   const [displayRecent, setDisplayRecent] = useState<RecentlyViewListItem[]>(
     []
   );
-  const limit = 3;
+  // const limit = 3;
 
   const prepareData = () => {
     if (recentlyViewedData.length) {
@@ -66,34 +65,35 @@ const RecentlyViewedList: FunctionComponent = () => {
           };
         })
         .filter((item) => item.name);
-      setData(formattedData as unknown as RecentlyViewListItem[]);
+      // setData(formattedData as unknown as RecentlyViewListItem[]);
       setDisplayRecent(
-        formattedData.slice(0, limit) as unknown as RecentlyViewListItem[]
+        // formattedData.slice(0, limit) as unknown as RecentlyViewListItem[]
+        formattedData as unknown as RecentlyViewListItem[]
       );
       setInitLoading(false);
     }
   };
 
-  const onLoadMore = () => {
-    setIsloading(true);
-    setDisplayRecent(data);
-    setIsloading(false);
-  };
+  // const onLoadMore = () => {
+  //   setIsloading(true);
+  //   setDisplayRecent(data);
+  //   setIsloading(false);
+  // };
 
-  const loadMore =
-    !initLoading &&
-    !isLoading &&
-    displayRecent.length < recentlyViewedData.length ? (
-      <div
-        style={{
-          textAlign: 'center',
-          marginTop: 12,
-          height: 32,
-          lineHeight: '32px',
-        }}>
-        <Button onClick={onLoadMore}>{t('label.load-more')}</Button>
-      </div>
-    ) : null;
+  // const loadMore =
+  //   !initLoading &&
+  //     !isLoading &&
+  //     displayRecent.length < recentlyViewedData.length ? (
+  //     <div
+  //       style={{
+  //         textAlign: 'center',
+  //         marginTop: 12,
+  //         height: 32,
+  //         lineHeight: '32px',
+  //       }}>
+  //       <Button onClick={onLoadMore}>{t('label.load-more')}</Button>
+  //     </div>
+  //   ) : null;
 
   useEffect(() => {
     prepareData();
@@ -101,15 +101,15 @@ const RecentlyViewedList: FunctionComponent = () => {
 
   return (
     <div className="recent-view-panel">
-      <Typography.Title
+      {/* <Typography.Title
         className="common-left-panel-card-heading m-b-sm"
         level={5}>
         {t('label.recent-views')}
-      </Typography.Title>
+      </Typography.Title> */}
       <List
         dataSource={displayRecent}
         itemLayout="vertical"
-        loadMore={loadMore}
+        // loadMore={loadMore}
         loading={initLoading}
         renderItem={(item) => (
           <List.Item extra={<div>{getTimeAgo(item.timestamp)}</div>}>

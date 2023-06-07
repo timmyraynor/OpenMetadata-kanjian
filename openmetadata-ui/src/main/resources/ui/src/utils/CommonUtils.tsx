@@ -904,15 +904,25 @@ export const getTimeAgo = (timestamp: number): string => {
   const days = Math.floor(hours / 24);
 
   if (days > 0) {
-    return `${days} ` + t('label.day') + `${days > 1 ? 's' : ''} ago`;
-  } else if (hours > 0) {
-    return `${hours} ` + t('label.hour') + `${hours > 1 ? 's' : ''} ago`;
-  } else if (minutes > 0) {
-    return `${minutes} ` + t('label.minute') + `${minutes > 1 ? 's' : ''} ago`;
-  } else {
     return (
-      `${seconds} ` + t('label.second') + `${seconds !== 1 ? 's' : ''} ago`
+      `${days} ` + t('label.day') + `${days > 1 ? 's' : ''} ` + t('label.ago')
     );
+  } else if (hours > 0) {
+    return (
+      `${hours} ` +
+      t('label.hour') +
+      `${hours > 1 ? 's' : ''} ` +
+      t('label.ago')
+    );
+  } else if (minutes > 0) {
+    return (
+      `${minutes} ` +
+      t('label.minute') +
+      `${minutes > 1 ? 's' : ''} ` +
+      t('label.ago')
+    );
+  } else {
+    return `< 1 ` + t('label.minute') + ` ` + t('label.ago');
   }
 };
 

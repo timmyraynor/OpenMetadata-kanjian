@@ -28,6 +28,10 @@
       "description": "Description of the glossary term.",
       "$ref": "../../type/basic.json#/definitions/markdown"
     },
+    "quickLink": {
+      "description": "Quick Link flag for the glossary item",
+      "type": "boolean"
+    },
     "synonyms": {
       "description": "Alternate names that are synonyms or near-synonyms for the glossary term.",
       "type": "array",

@@ -18,7 +18,7 @@
     "level": {
       "type": "string",
       "default": "Term",
-      "enum": ["Domain", "Subdomain", "Metric", "Term"]
+      "enum": ["Policy", "Chapter", "Domain", "Subdomain", "Metric", "Term"]
     }
   },
   "properties": {

@@ -13,6 +13,7 @@
 import { Card, Col, Row, Space } from 'antd';
 import DescriptionV1 from 'components/common/description/DescriptionV1';
 import GlossaryHierarchy from 'components/common/glossaryHierarchy/GlossaryHierarchyV1.component';
+import GlossaryQuickLink from 'components/common/glossaryQuickLink/GlossaryQuickLink.component';
 import GlossaryDetailsRightPanel from 'components/GlossaryDetailsRightPanel/GlossaryDetailsRightPanel.component';
 import { OperationPermission } from 'components/PermissionProvider/PermissionProvider.interface';
 import TagsInput from 'components/TagsInput/TagsInput.component';
@@ -41,6 +42,7 @@ const GlossaryOverviewTab = ({
     useState<boolean>(false);
 
   const [isLevelEdit, setIsLevelEdit] = useState<boolean>(false);
+  const [isQuickLinkEdit, setIsQuickLinkEdit] = useState<boolean>(false);
 
   const onDescriptionUpdate = async (updatedHTML: string) => {
     if (selectedData.description !== updatedHTML) {
@@ -100,6 +102,34 @@ const GlossaryOverviewTab = ({
                 }}
               />
             </Col>
+
+            <Col span={24}>
+              <GlossaryQuickLink
+                glossaryTerm={selectedData as any as GlossaryTerm}
+                hasEditAccess={permissions.EditAll}
+                isEdit={isQuickLinkEdit}
+                updateQuickLink={(newQuickLinkFlag: boolean) => {
+                  if (
+                    newQuickLinkFlag !==
+                    (selectedData as any as GlossaryTerm).quickLink
+                  ) {
+                    const updatedData = {
+                      ...selectedData,
+                      quickLink: newQuickLinkFlag,
+                    };
+                    onUpdate(updatedData);
+                    setIsQuickLinkEdit(false);
+                  }
+                }}
+                onCancel={() => {
+                  setIsQuickLinkEdit(false);
+                }}
+                onQuickLinkUpdate={() => {
+                  setIsQuickLinkEdit(true);
+                }}
+              />
+            </Col>
+
             <Col span={24}>
               <DescriptionV1
                 description={selectedData?.description || ''}

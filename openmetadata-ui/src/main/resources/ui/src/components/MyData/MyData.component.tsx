@@ -11,9 +11,12 @@
  *  limitations under the License.
  */
 
-import { Card, Col, Divider, Row } from 'antd';
+import type { TabsProps } from 'antd';
+import { Card, Col, Divider, Row, Tabs } from 'antd';
 import ActivityFeedList from 'components/ActivityFeed/ActivityFeedList/ActivityFeedList';
+import RecentlyViewed from 'components/recently-viewed/RecentlyViewed';
 import RecentlyViewedList from 'components/recently-viewed/RecentlyViewedList';
+import RecentSearchedTermsAntd from 'components/RecentSearchedTerms/RecentSearchedTermsAntd';
 import WelcomeScreen from 'components/WelcomeScreen/WelcomeScreen.component';
 import { ELASTICSEARCH_ERROR_PLACEHOLDER_TYPE } from 'enums/common.enum';
 import { observer } from 'mobx-react';
@@ -43,8 +46,7 @@ import PageLayoutV1 from '../containers/PageLayoutV1';
 import { EntityListWithAntd } from '../EntityList/EntityList';
 import Loader from '../Loader/Loader';
 import MyAssetStats from '../MyAssetStats/MyAssetStats.component';
-import RecentlyViewed from '../recently-viewed/RecentlyViewed';
-import RecentSearchedTermsAntd from '../RecentSearchedTerms/RecentSearchedTermsAntd';
+import './MyData.css';
 import { MyDataProps } from './MyData.interface';
 
 const MyData: React.FC<MyDataProps> = ({
@@ -262,6 +264,61 @@ const MyData: React.FC<MyDataProps> = ({
     [isFeedLoading, showWelcomeScreen]
   );
 
+  const getMyDataTabContent = () => {
+    return (
+      <>
+        {showActivityFeedList ? (
+          <ActivityFeedList
+            stickyFilter
+            withSidePanel
+            appliedFeedFilter={feedFilter}
+            deletePostHandler={deletePostHandler}
+            feedList={feedData}
+            isFeedLoading={isFeedLoading}
+            postFeedHandler={postFeedHandler}
+            refreshFeedCount={newFeedsLength}
+            updateThreadHandler={updateThreadHandler}
+            onFeedFiltersUpdate={handleFeedFilterChange}
+            onRefreshFeeds={onRefreshFeeds}
+          />
+        ) : (
+          !isFeedLoading && (
+            <WelcomeScreen onClose={() => updateWelcomeScreen(false)} />
+          )
+        )}
+        {isFeedLoading ? <Loader /> : null}
+        <div
+          data-testid="observer-element"
+          id="observer-element"
+          ref={elementRef as RefObject<HTMLDivElement>}
+        />
+        {/* Add spacer to work infinite scroll smoothly */}
+        <div className="tw-p-4" />
+      </>
+    );
+  };
+
+  const getTabOptions = () => {
+    const items: TabsProps['items'] = [
+      {
+        key: '1',
+        label: t('label.recent-views'),
+        children: (
+          <div className="mydata-card">
+            <RecentlyViewedList />
+          </div>
+        ),
+      },
+      {
+        key: '2',
+        label: t('label.activity-feed'),
+        children: <div className="mydata-card">{getMyDataTabContent()}</div>,
+      },
+    ];
+
+    return items;
+  };
+
   return (
     <PageLayoutV1
       leftPanel={getLeftPanel()}
@@ -274,34 +331,8 @@ const MyData: React.FC<MyDataProps> = ({
         />
       ) : (
         <>
-          <RecentlyViewedList />
-          {showActivityFeedList ? (
-            <ActivityFeedList
-              stickyFilter
-              withSidePanel
-              appliedFeedFilter={feedFilter}
-              deletePostHandler={deletePostHandler}
-              feedList={feedData}
-              isFeedLoading={isFeedLoading}
-              postFeedHandler={postFeedHandler}
-              refreshFeedCount={newFeedsLength}
-              updateThreadHandler={updateThreadHandler}
-              onFeedFiltersUpdate={handleFeedFilterChange}
-              onRefreshFeeds={onRefreshFeeds}
-            />
-          ) : (
-            !isFeedLoading && (
-              <WelcomeScreen onClose={() => updateWelcomeScreen(false)} />
-            )
-          )}
-          {isFeedLoading ? <Loader /> : null}
-          <div
-            data-testid="observer-element"
-            id="observer-element"
-            ref={elementRef as RefObject<HTMLDivElement>}
-          />
-          {/* Add spacer to work infinite scroll smoothly */}
-          <div className="tw-p-4" />
+          <Tabs defaultActiveKey="1" items={getTabOptions()} />
+          <Divider />
         </>
       )}
     </PageLayoutV1>

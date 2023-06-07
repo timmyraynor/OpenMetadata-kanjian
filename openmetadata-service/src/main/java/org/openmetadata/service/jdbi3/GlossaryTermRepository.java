@@ -52,8 +52,8 @@ import org.openmetadata.service.util.FullyQualifiedName;
 
 @Slf4j
 public class GlossaryTermRepository extends EntityRepository<GlossaryTerm> {
-  private static final String UPDATE_FIELDS = "tags,references,relatedTerms,reviewers,owner,synonyms,level";
-  private static final String PATCH_FIELDS = "tags,references,relatedTerms,reviewers,owner,synonyms,level";
+  private static final String UPDATE_FIELDS = "tags,references,quickLink,relatedTerms,reviewers,owner,synonyms,level";
+  private static final String PATCH_FIELDS = "tags,references,quickLink,relatedTerms,reviewers,owner,synonyms,level";
 
   public GlossaryTermRepository(CollectionDAO dao) {
     super(
@@ -265,6 +265,7 @@ public class GlossaryTermRepository extends EntityRepository<GlossaryTerm> {
       updateName(original, updated);
       updateParent(original, updated);
       updateLevel(original, updated);
+      updateQuickLink(original, updated);
     }
 
     @Override
@@ -356,6 +357,23 @@ public class GlossaryTermRepository extends EntityRepository<GlossaryTerm> {
             .tagUsageDAO()
             .rename(TagSource.GLOSSARY.ordinal(), original.getFullyQualifiedName(), updated.getFullyQualifiedName());
         recordChange("level", original.getLevel(), updated.getLevel());
+      }
+    }
+
+    public void updateQuickLink(GlossaryTerm original, GlossaryTerm updated) throws IOException {
+      if (Objects.isNull(original.getQuickLink()) || !(original.getQuickLink() == updated.getQuickLink())) {
+        // if original does not have QuickLink set or update is not matching with original
+        if (ProviderType.SYSTEM.equals(original.getProvider())) {
+          throw new IllegalArgumentException(
+              CatalogExceptionMessage.systemEntityRenameNotAllowed(original.getName(), entityType));
+        }
+        // Glossary term name changed - update the FQNs of the children terms to reflect this
+        LOG.info("Glossary term quickLink changed from {} to {}", original.getQuickLink(), updated.getQuickLink());
+        daoCollection.glossaryTermDAO().updateFqn(original.getFullyQualifiedName(), updated.getFullyQualifiedName());
+        daoCollection
+            .tagUsageDAO()
+            .rename(TagSource.GLOSSARY.ordinal(), original.getFullyQualifiedName(), updated.getFullyQualifiedName());
+        recordChange("quickLink", original.getQuickLink(), updated.getQuickLink());
       }
     }
 

@@ -12,6 +12,8 @@
  */
 
 import Icon, {
+  AuditOutlined,
+  BankOutlined,
   BarChartOutlined,
   BlockOutlined,
   BookOutlined,
@@ -369,6 +371,10 @@ export const getEntityTermIcon = (data: GlossaryTerm, iconSize: string) => {
       return <RiseOutlined style={{ fontSize: iconSize }} />;
     case Level.Term:
       return <BookOutlined style={{ fontSize: iconSize }} />;
+    case Level.Policy:
+      return <BankOutlined style={{ fontSize: iconSize }} />;
+    case Level.Chapter:
+      return <AuditOutlined style={{ fontSize: iconSize }} />;
     default:
       return <BookOutlined style={{ fontSize: iconSize }} />;
   }
