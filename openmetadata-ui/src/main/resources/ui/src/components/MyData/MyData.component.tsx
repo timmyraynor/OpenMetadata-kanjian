@@ -14,6 +14,7 @@
 import type { TabsProps } from 'antd';
 import { Card, Col, Divider, Row, Tabs } from 'antd';
 import ActivityFeedList from 'components/ActivityFeed/ActivityFeedList/ActivityFeedList';
+import FeaturedDomain from 'components/FeaturedDomain/FeaturedDomain';
 import RecentlyViewed from 'components/recently-viewed/RecentlyViewed';
 import RecentlyViewedList from 'components/recently-viewed/RecentlyViewedList';
 import RecentSearchedTermsAntd from 'components/RecentSearchedTerms/RecentSearchedTermsAntd';
@@ -330,10 +331,30 @@ const MyData: React.FC<MyDataProps> = ({
           type={ELASTICSEARCH_ERROR_PLACEHOLDER_TYPE.ERROR}
         />
       ) : (
-        <>
-          <Tabs defaultActiveKey="1" items={getTabOptions()} />
-          <Divider />
-        </>
+        <Row>
+          <Col span={12}>
+            <Tabs
+              defaultActiveKey="1"
+              items={[
+                {
+                  key: '1',
+                  label: t('label.quick-link'),
+                  children: (
+                    <div className="mydata-card">
+                      <FeaturedDomain />
+                    </div>
+                  ),
+                },
+              ]}
+            />
+          </Col>
+          <Col span={1}>
+            <Divider style={{ height: '100%' }} type="vertical" />
+          </Col>
+          <Col span={11}>
+            <Tabs defaultActiveKey="1" items={getTabOptions()} />
+          </Col>
+        </Row>
       )}
     </PageLayoutV1>
   );

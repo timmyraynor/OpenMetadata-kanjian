@@ -425,6 +425,18 @@ public abstract class EntityRepository<T extends EntityInterface> {
     }
   }
 
+  //  @Transaction
+  //  public ResultList<T> listJsonMatch(UriInfo uriInfo, Fields fields,ListFilter filter, String key, String value)
+  // throws IOException {
+  //    List<T> matchedJsonEntities = dao.findEntityByJsonKV(key, value);
+  //    List<T> entities = new ArrayList<>();
+  //    for (T entity: matchedJsonEntities) {
+  //      T e = withHref(uriInfo, setFieldsInternal(entity, fields));
+  //      entities.add(e);
+  //    }
+  //    return getResultList(entities, null, null, total);
+  //  }
+
   @Transaction
   public ResultList<T> listBefore(UriInfo uriInfo, Fields fields, ListFilter filter, int limitParam, String before)
       throws IOException {

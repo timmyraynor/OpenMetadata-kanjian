@@ -12,7 +12,7 @@
  */
 
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Col, Form, Space, Typography } from 'antd';
+import { Button, Card, Col, Form, Space, Switch, Typography } from 'antd';
 import { ReactComponent as EditIcon } from 'assets/svg/edit-new.svg';
 import { DE_ACTIVE_COLOR } from 'constants/constants';
 import { GlossaryTerm } from 'generated/entity/data/glossaryTerm';
@@ -23,7 +23,7 @@ const { Text } = Typography;
 interface GlossaryQuickLinkProps {
   hasEditAccess: boolean;
   isEdit: boolean;
-  onQuickLinkUpdate: (data: any) => void;
+  onQuickLinkUpdate: () => void;
   updateQuickLink: (quickLink: boolean) => void;
   glossaryTerm: GlossaryTerm;
   onCancel: () => void;
@@ -39,7 +39,14 @@ const GlossaryQuickLink: FC<GlossaryQuickLinkProps> = ({
   onCancel,
   wrapInCard,
 }) => {
-  const [quickLink, setQuickLink] = useState<boolean>(false);
+  const [quickLink, setQuickLink] = useState<boolean>(
+    glossaryTerm.quickLink || false
+  );
+
+  const syncBeforeUpdate = () => {
+    setQuickLink(glossaryTerm.quickLink || quickLink);
+    onQuickLinkUpdate();
+  };
 
   const editButton = () => {
     return hasEditAccess ? (
@@ -49,7 +56,7 @@ const GlossaryQuickLink: FC<GlossaryQuickLinkProps> = ({
         icon={<EditIcon color={DE_ACTIVE_COLOR} width="14px" />}
         size="small"
         type="text"
-        onClick={onQuickLinkUpdate}
+        onClick={syncBeforeUpdate}
       />
     ) : (
       <></>
@@ -74,18 +81,21 @@ const GlossaryQuickLink: FC<GlossaryQuickLinkProps> = ({
         </div>
         <div>
           {isEdit ? (
-            <Form.Item
-              // label={t('label.quick-link-flag')}
-              name="quickLink"
-              rules={[{ required: true }]}>
+            <Form.Item name="quickLink" rules={[{ required: true }]}>
               <Col span={18}>
-                <Checkbox
+                <Switch
+                  checked={quickLink}
+                  onChange={(checked: boolean) => {
+                    setQuickLink(checked);
+                  }}
+                />
+                {/* <Checkbox
                   checked={quickLink}
                   onChange={(e) => {
                     setQuickLink(e.target.checked);
                   }}>
                   {t('label.quick-link-flag')}
-                </Checkbox>
+                </Checkbox> */}
               </Col>
               <Col span={6}>
                 {hasEditAccess ? (
@@ -112,9 +122,9 @@ const GlossaryQuickLink: FC<GlossaryQuickLinkProps> = ({
               </Col>
             </Form.Item>
           ) : glossaryTerm.quickLink ? (
-            <span>{t('label.yes')}</span>
+            <Switch checked disabled />
           ) : (
-            <span>{t('label.no')}</span>
+            <Switch disabled checked={false} />
           )}
         </div>
       </Space>

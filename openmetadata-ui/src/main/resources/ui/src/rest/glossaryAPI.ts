@@ -94,6 +94,21 @@ export const getGlossariesByName = async (
   return response.data;
 };
 
+export const getGlossariesByAttribute = async (
+  attribute: string,
+  attributeVal: string,
+  arrQueryFields: string | string[]
+) => {
+  const url = getURLWithQueryFields(
+    `/glossaryTerms/listjson/${attribute}/${attributeVal}`,
+    arrQueryFields
+  );
+
+  const response = await APIClient.get<PagingResponse<GlossaryTerm[]>>(url);
+
+  return response.data;
+};
+
 export const getGlossaryTerms = async (params: ListGlossaryTermsParams) => {
   const response = await APIClient.get<PagingResponse<GlossaryTerm[]>>(
     '/glossaryTerms',

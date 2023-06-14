@@ -44,6 +44,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openmetadata.schema.api.data.CreateGlossaryTerm;
 import org.openmetadata.schema.api.data.RestoreEntity;
 import org.openmetadata.schema.entity.data.Glossary;
@@ -222,6 +224,71 @@ public class GlossaryTermResource extends EntityResource<GlossaryTerm, GlossaryT
           Include include)
       throws IOException {
     return getInternal(uriInfo, securityContext, id, fieldsParam, include);
+  }
+
+  @GET
+  @Path("/listjson/{key}/{value}")
+  @Operation(
+      operationId = "getGlossaryTermsByJsonKV",
+      summary = "Get a glossary term by JSON Key Value",
+      description = "Get a glossary term by JSON key value.",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "The glossary terms",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Glossary[].class))),
+        @ApiResponse(responseCode = "404", description = "Glossary for instance {id} is not found")
+      })
+  public ResultList<GlossaryTerm> getJsonMatch(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Key of the glossary term json match", schema = @Schema(type = "String"))
+          @PathParam("key")
+          String key,
+      @Parameter(description = "Value of the glossary term json match", schema = @Schema(type = "String"))
+          @PathParam("value")
+          String value,
+      @Parameter(
+              description = "Fields requested in the returned resource",
+              schema = @Schema(type = "string", example = FIELDS))
+          @QueryParam("fields")
+          String fieldsParam,
+      @Parameter(description = "Limit the number glossary terms returned. (1 to 1000000, " + "default = 10)")
+          @DefaultValue("10")
+          @Min(0)
+          @Max(1000000)
+          @QueryParam("limit")
+          int limitParam,
+      @Parameter(description = "Returns list of glossary terms before this cursor", schema = @Schema(type = "string"))
+          @QueryParam("before")
+          String before,
+      @Parameter(description = "Returns list of glossary terms after this cursor", schema = @Schema(type = "string"))
+          @QueryParam("after")
+          String after,
+      @Parameter(
+              description = "Include all, deleted, or non-deleted entities.",
+              schema = @Schema(implementation = Include.class))
+          @QueryParam("include")
+          @DefaultValue("non-deleted")
+          Include include)
+      throws IOException {
+    RestUtil.validateCursors(before, after);
+    Fields fields = getFields(fieldsParam);
+    String valueWrapper;
+    if (StringUtils.isNumeric(value) || StringUtils.equals(value, "false") || StringUtils.equals(value, "true")) {
+        valueWrapper = value;
+    } else {
+        valueWrapper = "\"" + value + "\"";
+    }
+    //      "'$." + key + "'=" + value
+    ListFilter filter = new ListFilter(include).addQueryParam("json", "\"$." + key + "\"=" + valueWrapper );
+    ResultList<GlossaryTerm> terms;
+    if (before != null) { // Reverse paging
+      terms = dao.listBefore(uriInfo, fields, filter, limitParam, before); // Ask for one extra entry
+    } else { // Forward paging or first page
+      terms = dao.listAfter(uriInfo, fields, filter, limitParam, after);
+    }
+    return addHref(uriInfo, terms);
   }
 
   @GET

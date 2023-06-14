@@ -51,6 +51,7 @@ public class ListFilter {
     condition = addCondition(condition, getWebhookCondition(tableName));
     condition = addCondition(condition, getWebhookTypeCondition(tableName));
     condition = addCondition(condition, getTestCaseCondition());
+    condition = addCondition(condition, getJsonFilterCondition(tableName));
     return condition.isEmpty() ? "WHERE TRUE" : "WHERE " + condition;
   }
 
@@ -68,6 +69,11 @@ public class ListFilter {
   public String getDatabaseCondition(String tableName) {
     String database = queryParams.get("database");
     return database == null ? "" : getFqnPrefixCondition(tableName, database);
+  }
+
+  public String getJsonFilterCondition(String tableName) {
+    String jsonStr = queryParams.get("json");
+    return jsonStr == null ? "" : getJsonPrefixCondition(tableName, jsonStr);
   }
 
   public String getServiceCondition(String tableName) {
@@ -136,6 +142,13 @@ public class ListFilter {
     return tableName == null
         ? String.format("webhookType LIKE '%s%%'", typePrefix)
         : String.format("%s.webhookType LIKE '%s%%'", tableName, typePrefix);
+  }
+
+  private String getJsonPrefixCondition(String tableName, String jsonCondition) {
+    jsonCondition = escape(jsonCondition);
+    return tableName == null
+        ? String.format("json->%s", jsonCondition)
+        : String.format("%s.json->%s", tableName, jsonCondition);
   }
 
   private String getPipelineTypePrefixCondition(String tableName, String pipelineType) {

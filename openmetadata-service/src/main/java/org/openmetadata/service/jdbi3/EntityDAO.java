@@ -21,6 +21,7 @@ import static org.openmetadata.service.jdbi3.locator.ConnectionType.POSTGRES;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.SneakyThrows;
@@ -97,6 +98,13 @@ public interface EntityDAO<T extends EntityInterface> {
       @Define("table") String table,
       @Define("nameColumn") String nameColumn,
       @Bind("name") String name,
+      @Define("cond") String cond);
+
+  @SqlQuery("SELECT json FROM <table> WHERE json->'$.<jsonKey>' = :jsonValue <cond>")
+  List<String> findByJsonKeyValue(
+      @Define("table") String table,
+      @Define("jsonKey") String jsonKey,
+      @Bind("jsonValue") String jsonValue,
       @Define("cond") String cond);
 
   @SqlQuery("SELECT count(*) FROM <table> <cond>")
@@ -189,6 +197,20 @@ public interface EntityDAO<T extends EntityInterface> {
   @SneakyThrows
   default T findEntityByName(String fqn, Include include) {
     return jsonToEntity(findByName(getTableName(), getNameColumn(), fqn, getCondition(include)), fqn);
+  }
+
+  default List<T> findEntityByJsonKV(String key, String value) {
+    return findEntityByJsonKV(key, value, Include.NON_DELETED);
+  }
+
+  @SneakyThrows
+  default List<T> findEntityByJsonKV(String key, String value, Include include) {
+    List<String> resultSet = findByJsonKeyValue(getTableName(), key, value, getCondition(include));
+    List<T> entities = new ArrayList<>();
+    for (String line : resultSet) {
+      entities.add(jsonToEntity(line, key + ":" + value));
+    }
+    return entities;
   }
 
   default T jsonToEntity(String json, String identity) throws IOException {
