@@ -37,7 +37,7 @@ import {
   getThreadFilterDropdownIcon,
   threadFilterList,
 } from './ActivityFeedList.util';
-import FeedListBody from './FeedListBody';
+import FeedListBodyV2 from './FeedListBodyV2';
 import FeedListSeparator from './FeedListSeparator';
 
 const ActivityFeedList: FC<ActivityFeedListProp> = ({
@@ -251,7 +251,9 @@ const ActivityFeedList: FC<ActivityFeedListProp> = ({
 
   return (
     <div className={classNames(className, 'feed-list-container')} id="feedData">
-      <div className={stickyFilter ? 'filters-wrapper' : ''}>
+      <div
+        className={stickyFilter ? 'filters-wrapper' : ''}
+        style={{ background: 'white' }}>
         {showFilterDropdowns && getFilterDropDown()}
       </div>
       {refreshFeedCount ? (
@@ -273,7 +275,7 @@ const ActivityFeedList: FC<ActivityFeedListProp> = ({
                   className="relative m-y-xs"
                   relativeDay={d}
                 />
-                <FeedListBody
+                <FeedListBodyV2
                   deletePostHandler={deletePostHandler}
                   isEntityFeed={isEntityFeed}
                   postFeed={postFeed}

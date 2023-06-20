@@ -251,36 +251,36 @@ const NavBar = ({
     };
   };
 
-  const governanceMenu = [
-    {
-      key: 'glossary',
-      label: (
-        <NavLink
-          className="focus:no-underline"
-          data-testid="appbar-item-glossary"
-          style={navStyle(pathname.startsWith('/glossary'))}
-          to={{
-            pathname: ROUTES.GLOSSARY,
-          }}>
-          {t('label.glossary')}
-        </NavLink>
-      ),
-    },
-    {
-      key: 'tags',
-      label: (
-        <NavLink
-          className="focus:no-underline"
-          data-testid="appbar-item-tags"
-          style={navStyle(pathname.startsWith('/tags'))}
-          to={{
-            pathname: ROUTES.TAGS,
-          }}>
-          {t('label.classification')}
-        </NavLink>
-      ),
-    },
-  ];
+  // const governanceMenu = [
+  //   {
+  //     key: 'glossary',
+  //     label: (
+  //       <NavLink
+  //         className="focus:no-underline"
+  //         data-testid="appbar-item-glossary"
+  //         style={navStyle(pathname.startsWith('/glossary'))}
+  //         to={{
+  //           pathname: ROUTES.GLOSSARY,
+  //         }}>
+  //         {t('label.glossary')}
+  //       </NavLink>
+  //     ),
+  //   },
+  //   {
+  //     key: 'tags',
+  //     label: (
+  //       <NavLink
+  //         className="focus:no-underline"
+  //         data-testid="appbar-item-tags"
+  //         style={navStyle(pathname.startsWith('/tags'))}
+  //         to={{
+  //           pathname: ROUTES.TAGS,
+  //         }}>
+  //         {t('label.classification')}
+  //       </NavLink>
+  //     ),
+  //   },
+  // ];
 
   const handleKeyPress = useCallback((event) => {
     if (isCommandKeyPress(event) && event.key === Keys.K) {
@@ -380,48 +380,6 @@ const NavBar = ({
                 width={30}
               />
             </Link>
-            <Space className="tw-ml-5 flex-none" size={16}>
-              <NavLink
-                className="focus:tw-no-underline"
-                data-testid="appbar-item-explore"
-                style={navStyle(pathname.startsWith('/explore'))}
-                to={{
-                  pathname: '/explore/tables',
-                }}>
-                {t('label.explore')}
-              </NavLink>
-              <NavLink
-                className="focus:tw-no-underline"
-                data-testid="appbar-item-data-quality"
-                style={navStyle(pathname.includes(ROUTES.TEST_SUITES))}
-                to={{
-                  pathname: ROUTES.TEST_SUITES,
-                }}>
-                {t('label.quality')}
-              </NavLink>
-              <NavLink
-                className="focus:tw-no-underline"
-                data-testid="appbar-item-data-insight"
-                style={navStyle(pathname.includes(ROUTES.DATA_INSIGHT))}
-                to={{
-                  pathname: ROUTES.DATA_INSIGHT,
-                }}>
-                {t('label.insight-plural')}
-              </NavLink>
-              <Dropdown
-                className="cursor-pointer"
-                menu={{ items: governanceMenu }}
-                trigger={['click']}>
-                <Space data-testid="governance" size={2}>
-                  {t('label.govern')}
-                  <DropDownIcon
-                    className="m-xs m-l-xss"
-                    height={14}
-                    width={14}
-                  />
-                </Space>
-              </Dropdown>
-            </Space>
           </div>
           <div
             className="tw-flex-none tw-relative tw-justify-items-center tw-ml-16 appbar-search"

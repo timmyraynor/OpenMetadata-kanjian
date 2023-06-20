@@ -307,6 +307,7 @@
     "entity-proportion": "{{entity}} Proportion",
     "entity-service": "{{entity}}サービス",
     "event-publisher-plural": "イベントの作成者",
+    "event-time": "イベントの時間",
     "event-type": "イベントの種類",
     "every": "Every",
     "exclude": "除外",

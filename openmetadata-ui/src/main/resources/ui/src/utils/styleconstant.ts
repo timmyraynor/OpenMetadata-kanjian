@@ -11,6 +11,6 @@
  *  limitations under the License.
  */
 
-export const activeLink = '#000000';
-export const normalLink = '#37352f';
+export const activeLink = '#047857';
+export const normalLink = '#2d2d2d';
 export const countBackground = '#EEEAF8';

@@ -11,7 +11,7 @@
  *  limitations under the License.
  */
 
-import { Button, List, Skeleton, Tag, Typography } from 'antd';
+import { Button, List, Skeleton, Tag } from 'antd';
 import TagsViewer from 'components/Tag/TagsViewer/tags-viewer';
 import { TagLabel } from 'generated/type/tagLabel';
 import React, { FunctionComponent, useEffect, useState } from 'react';
@@ -25,7 +25,6 @@ import {
   getTimeAgo,
 } from '../../utils/CommonUtils';
 import './recently-view-list.css';
-const { Text } = Typography;
 
 interface RecentlyViewListItem {
   serviceType: string;
@@ -102,11 +101,6 @@ const RecentlyViewedList: FunctionComponent = () => {
 
   return (
     <div className="recent-view-panel">
-      {/* <Typography.Title
-        className="common-left-panel-card-heading m-b-sm"
-        level={5}>
-        {t('label.recent-views')}
-      </Typography.Title> */}
       <List
         dataSource={displayRecent}
         itemLayout="vertical"
@@ -116,6 +110,7 @@ const RecentlyViewedList: FunctionComponent = () => {
           <List.Item extra={<div>{getTimeAgo(item.timestamp)}</div>}>
             <Skeleton active avatar loading={false} title={false}>
               <List.Item.Meta
+                // style={{ marginTop: '4px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)' }}
                 avatar={
                   <div
                     className="tw-flex tw-justify-end"
@@ -124,7 +119,7 @@ const RecentlyViewedList: FunctionComponent = () => {
                   </div>
                 }
                 description={
-                  <div>
+                  <>
                     <Tag color="default" icon={getEntityIconFlex(item.type)}>
                       {getEntityBaseName(item)}
                     </Tag>
@@ -134,7 +129,7 @@ const RecentlyViewedList: FunctionComponent = () => {
                         tags={(item.tags || []).map((tag) => getTagValue(tag))}
                       />
                     ) : null}
-                  </div>
+                  </>
                 }
                 title={
                   <a
@@ -146,13 +141,9 @@ const RecentlyViewedList: FunctionComponent = () => {
                   </a>
                 }
               />
-              <div>
-                <Text className="line-clamp">{item.description}</Text>
-              </div>
             </Skeleton>
           </List.Item>
         )}
-        size="small"
       />
     </div>
   );

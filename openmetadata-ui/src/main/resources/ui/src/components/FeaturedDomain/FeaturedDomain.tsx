@@ -11,17 +11,14 @@
  *  limitations under the License.
  */
 
-import { List, Skeleton, Tag, Typography } from 'antd';
-import TagsViewer from 'components/Tag/TagsViewer/tags-viewer';
+import { List, Skeleton } from 'antd';
 import { EntityType } from 'enums/entity.enum';
 import { GlossaryTerm } from 'generated/entity/data/glossaryTerm';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { getGlossariesByAttribute } from 'rest/glossaryAPI';
-import { getEntityBaseName, getEntityName } from 'utils/EntityUtils';
+import { getEntityName } from 'utils/EntityUtils';
 import { getEntityLink, getEntityTermIcon } from 'utils/TableUtils';
-import { getTagValue } from '../../utils/CommonUtils';
 import './feature-domain.css';
-const { Text } = Typography;
 
 const FeaturedDomain: FunctionComponent = () => {
   const [initLoading, setInitLoading] = useState(true);
@@ -46,7 +43,7 @@ const FeaturedDomain: FunctionComponent = () => {
     <div className="featured-view-panel">
       <List
         dataSource={quickLinkItems}
-        itemLayout="vertical"
+        itemLayout="horizontal"
         // loadMore={loadMore}
         loading={initLoading}
         renderItem={(item) => (
@@ -60,19 +57,7 @@ const FeaturedDomain: FunctionComponent = () => {
                     {getEntityTermIcon(item, '32px')}
                   </div>
                 }
-                description={
-                  <div>
-                    <Tag color="default" icon={getEntityTermIcon(item, '16px')}>
-                      {getEntityBaseName(item)}
-                    </Tag>
-                    {item.tags && item.tags.length > 0 ? (
-                      <TagsViewer
-                        sizeCap={-1}
-                        tags={(item.tags || []).map((tag) => getTagValue(tag))}
-                      />
-                    ) : null}
-                  </div>
-                }
+                description={<div>{item.description}</div>}
                 title={
                   <a
                     href={getEntityLink(
@@ -83,9 +68,6 @@ const FeaturedDomain: FunctionComponent = () => {
                   </a>
                 }
               />
-              <div>
-                <Text className="line-clamp">{item.description}</Text>
-              </div>
             </Skeleton>
           </List.Item>
         )}

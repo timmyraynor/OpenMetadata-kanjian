@@ -11,11 +11,12 @@
  *  limitations under the License.
  */
 
+import { HistoryOutlined, PushpinOutlined } from '@ant-design/icons';
 import type { TabsProps } from 'antd';
 import { Card, Col, Divider, Row, Tabs } from 'antd';
 import ActivityFeedList from 'components/ActivityFeed/ActivityFeedList/ActivityFeedList';
 import FeaturedDomain from 'components/FeaturedDomain/FeaturedDomain';
-import RecentlyViewed from 'components/recently-viewed/RecentlyViewed';
+import MyAssetStats from 'components/MyAssetStats/MyAssetStats.component';
 import RecentlyViewedList from 'components/recently-viewed/RecentlyViewedList';
 import RecentSearchedTermsAntd from 'components/RecentSearchedTerms/RecentSearchedTermsAntd';
 import WelcomeScreen from 'components/WelcomeScreen/WelcomeScreen.component';
@@ -46,7 +47,6 @@ import ErrorPlaceHolderES from '../common/error-with-placeholder/ErrorPlaceHolde
 import PageLayoutV1 from '../containers/PageLayoutV1';
 import { EntityListWithAntd } from '../EntityList/EntityList';
 import Loader from '../Loader/Loader';
-import MyAssetStats from '../MyAssetStats/MyAssetStats.component';
 import './MyData.css';
 import { MyDataProps } from './MyData.interface';
 
@@ -98,18 +98,12 @@ const MyData: React.FC<MyDataProps> = ({
     setShowWelcomeScreen(show);
   };
 
-  const getLeftPanel = () => {
+  const getAssetPanel = () => {
     return (
       <Card className="panel-shadow-color card-padding-0">
         <Row className="p-y-sm">
           <Col className="p-x-md" span={24}>
             <MyAssetStats entityState={data} />
-          </Col>
-          <Col span={24}>
-            <Divider className="m-y-sm" />
-          </Col>
-          <Col className="p-x-md" span={24}>
-            <RecentlyViewed />
           </Col>
           <Col span={24}>
             <Divider className="m-y-sm" />
@@ -220,6 +214,8 @@ const MyData: React.FC<MyDataProps> = ({
           />
         </div>
         <div className="tw-mt-5" />
+        <div data-testid="type-data-container">{getAssetPanel()}</div>
+        <div className="tw-mt-5" />
       </>
     );
   }, [ownedData, followedData, pendingTaskCount, isLoadingOwnedData]);
@@ -303,17 +299,17 @@ const MyData: React.FC<MyDataProps> = ({
     const items: TabsProps['items'] = [
       {
         key: '1',
-        label: t('label.recent-views'),
+        label: (
+          <>
+            <HistoryOutlined />
+            {t('label.recent-views')}
+          </>
+        ),
         children: (
           <div className="mydata-card">
             <RecentlyViewedList />
           </div>
         ),
-      },
-      {
-        key: '2',
-        label: t('label.activity-feed'),
-        children: <div className="mydata-card">{getMyDataTabContent()}</div>,
       },
     ];
 
@@ -322,7 +318,7 @@ const MyData: React.FC<MyDataProps> = ({
 
   return (
     <PageLayoutV1
-      leftPanel={getLeftPanel()}
+      leftPanel={undefined}
       pageTitle={t('label.my-data')}
       rightPanel={getRightPanel()}>
       {error ? (
@@ -331,30 +327,43 @@ const MyData: React.FC<MyDataProps> = ({
           type={ELASTICSEARCH_ERROR_PLACEHOLDER_TYPE.ERROR}
         />
       ) : (
-        <Row>
-          <Col span={12}>
-            <Tabs
-              defaultActiveKey="1"
-              items={[
-                {
-                  key: '1',
-                  label: t('label.quick-link'),
-                  children: (
-                    <div className="mydata-card">
-                      <FeaturedDomain />
-                    </div>
-                  ),
-                },
-              ]}
-            />
-          </Col>
-          <Col span={1}>
-            <Divider style={{ height: '100%' }} type="vertical" />
-          </Col>
-          <Col span={11}>
-            <Tabs defaultActiveKey="1" items={getTabOptions()} />
-          </Col>
-        </Row>
+        <>
+          <Row gutter={16}>
+            <Col span={10}>
+              <Card>
+                <Tabs
+                  defaultActiveKey="1"
+                  items={[
+                    {
+                      key: '1',
+                      label: (
+                        <>
+                          <PushpinOutlined /> {t('label.quick-link')}
+                        </>
+                      ),
+                      children: (
+                        <div className="mydata-card">
+                          <FeaturedDomain />
+                        </div>
+                      ),
+                    },
+                  ]}
+                />
+              </Card>
+            </Col>
+            <Col span={14}>
+              <Card>
+                <Tabs defaultActiveKey="1" items={getTabOptions()} />
+              </Card>
+            </Col>
+          </Row>
+          <div style={{ marginTop: '16px' }} />
+          <Row gutter={16}>
+            <Col span={14}>
+              <Card>{getMyDataTabContent()}</Card>
+            </Col>
+          </Row>
+        </>
       )}
     </PageLayoutV1>
   );

@@ -307,6 +307,7 @@
     "entity-proportion": "{{entity}} Proportion",
     "entity-service": "{{entity}} Service",
     "event-publisher-plural": "Publicateur d'Evènement",
+    "event-time": "Heure de l'Evènement",
     "event-type": "Type d'Evènement",
     "every": "Chaque",
     "exclude": "Exclure",

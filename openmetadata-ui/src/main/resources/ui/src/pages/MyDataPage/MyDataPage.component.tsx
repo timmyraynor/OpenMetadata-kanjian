@@ -21,7 +21,6 @@ import { Operation } from 'fast-json-patch';
 import { isEmpty, isNil } from 'lodash';
 import { observer } from 'mobx-react';
 import React, {
-  Fragment,
   Reducer,
   useCallback,
   useEffect,
@@ -318,27 +317,25 @@ const MyDataPage = () => {
   return (
     <PageContainerV1>
       {!isEmpty(state.entityCounts) ? (
-        <Fragment>
-          <MyData
-            activityFeeds={activityFeeds}
-            data={state}
-            deletePostHandler={deletePostHandler}
-            error={error}
-            feedData={entityThread || []}
-            fetchFeedHandler={handleFeedFetchFromFeedList}
-            followedData={followedData || []}
-            followedDataCount={followedDataCount}
-            isFeedLoading={isFeedLoading}
-            isLoadingOwnedData={isLoadingOwnedData}
-            ownedData={ownedData || []}
-            ownedDataCount={ownedDataCount}
-            paging={paging}
-            pendingTaskCount={pendingTaskCount}
-            postFeedHandler={postFeedHandler}
-            updateThreadHandler={updateThreadHandler}
-            onRefreshFeeds={onRefreshFeeds}
-          />
-        </Fragment>
+        <MyData
+          activityFeeds={activityFeeds}
+          data={state}
+          deletePostHandler={deletePostHandler}
+          error={error}
+          feedData={entityThread || []}
+          fetchFeedHandler={handleFeedFetchFromFeedList}
+          followedData={followedData || []}
+          followedDataCount={followedDataCount}
+          isFeedLoading={isFeedLoading}
+          isLoadingOwnedData={isLoadingOwnedData}
+          ownedData={ownedData || []}
+          ownedDataCount={ownedDataCount}
+          paging={paging}
+          pendingTaskCount={pendingTaskCount}
+          postFeedHandler={postFeedHandler}
+          updateThreadHandler={updateThreadHandler}
+          onRefreshFeeds={onRefreshFeeds}
+        />
       ) : (
         <Loader />
       )}
