@@ -44,7 +44,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openmetadata.schema.api.data.CreateGlossaryTerm;
 import org.openmetadata.schema.api.data.RestoreEntity;
@@ -276,12 +275,12 @@ public class GlossaryTermResource extends EntityResource<GlossaryTerm, GlossaryT
     Fields fields = getFields(fieldsParam);
     String valueWrapper;
     if (StringUtils.isNumeric(value) || StringUtils.equals(value, "false") || StringUtils.equals(value, "true")) {
-        valueWrapper = value;
+      valueWrapper = value;
     } else {
-        valueWrapper = "\"" + value + "\"";
+      valueWrapper = "\"" + value + "\"";
     }
     //      "'$." + key + "'=" + value
-    ListFilter filter = new ListFilter(include).addQueryParam("json", "\"$." + key + "\"=" + valueWrapper );
+    ListFilter filter = new ListFilter(include).addQueryParam("json", "\"$." + key + "\"=" + valueWrapper);
     ResultList<GlossaryTerm> terms;
     if (before != null) { // Reverse paging
       terms = dao.listBefore(uriInfo, fields, filter, limitParam, before); // Ask for one extra entry
